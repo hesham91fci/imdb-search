@@ -137,3 +137,5 @@ Pods/Target Support Files/SwiftyJSON/SwiftyJSON-prefix.pch
 Pods/Target Support Files/SwiftyJSON/SwiftyJSON-umbrella.h
 Pods/Target Support Files/SwiftyJSON/SwiftyJSON.modulemap
 Pods/Target Support Files/SwiftyJSON/SwiftyJSON.xcconfig
+IMDB search.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+IMDB search.xcworkspace/xcuserdata/heshamali.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
