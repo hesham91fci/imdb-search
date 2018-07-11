@@ -7,7 +7,6 @@ target 'IMDB search' do
 
   # Pods for IMDB search
 	pod 'Alamofire'
-	pod 'SwiftyJSON'
 	pod 'ObjectMapper'
 	pod 'Kingfisher'
 

@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  IMDB search
+
+  Created by Hesham Ali on 7/11/18.
+  Copyright © 2018 Hesham Ali. All rights reserved.
+*/
+"HOST_URL" = "http://api.themoviedb.org/3";
+"SEARCH_ENDPOINT" = "/search/movie";
+"POSTERS_ENDPOINT" = "http://image.tmdb.org/t/p/w92";
