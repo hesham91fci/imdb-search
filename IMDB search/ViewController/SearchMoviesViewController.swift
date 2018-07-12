@@ -14,6 +14,8 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
     var movies=[Movie]()
     var keyword:String!
     let presenter = MoviePresenter()
+    var currentPage=0
+    var totalPages:Int!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.movieTableView.delegate = self
@@ -42,10 +44,51 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
             self.present(alert, animated: true, completion: nil)
             return
         }
+        self.currentPage = 0
+        self.movies = [Movie]()
         self.movieSearchBar.resignFirstResponder()
         self.keyword = searchBar.text!
-        self.presenter.searchMovies(query: self.keyword, page: "1")
+        getResults()
         
+    }
+    
+    func getResults(){
+        
+        if(self.totalPages == nil || self.currentPage<self.totalPages){
+            print("searching ...")
+            self.currentPage = self.currentPage + 1
+            self.presenter.searchMovies(query: self.keyword, page: "\(self.currentPage)")
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        view.endEditing(true)
+        self.loadMoreMovies(scrollView: scrollView)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        self.loadMoreMovies(scrollView: scrollView)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.loadMoreMovies(scrollView: scrollView)
+    }
+    /*func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        self.loadMoreMovies(scrollView: scrollView)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.loadMoreMovies(scrollView: scrollView)
+    }*/
+    
+    func loadMoreMovies(scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        
+        if offsetY > contentHeight - scrollView.frame.size.height {
+            
+            self.getResults()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,6 +110,14 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
 }
 
 extension SearchMoviesViewController: MovieView{
+    func setCurrentPage(pageIndex: Int) {
+        self.currentPage = pageIndex
+    }
+    
+    func setTotalPages(totalPages: Int) {
+        self.totalPages = totalPages
+    }
+    
     func startLoading() {
         BusyLoader.showBusyIndicator(mainView: self.view)
     }
@@ -77,7 +128,11 @@ extension SearchMoviesViewController: MovieView{
     
     func setMovies(movies: [Movie]) {
         self.movieSearchBar.isHidden = false
-        self.movies = movies
+        self.movies.append(contentsOf: movies)
+        print("total movies : \(self.movies.count)")
+        if self.currentPage == 1{
+            self.movieTableView.setContentOffset(.zero, animated: true)
+        }
         self.movieTableView.reloadData()
     }
     

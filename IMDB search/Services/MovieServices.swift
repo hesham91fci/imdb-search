@@ -15,7 +15,7 @@ struct MovieServices {
         
     }
     
-    func searchMovies(query:String, page:String, completionHandler: @escaping (_ success: Bool, _ data: [Movie]) -> Void){
+    func searchMovies(query:String, page:String, completionHandler: @escaping (_ success: Bool, _ data: TotalResults?) -> Void){
         let urlPath = NSLocalizedString("HOST_URL", comment: "comment") + NSLocalizedString("SEARCH_ENDPOINT", comment: "comment")
         
         Alamofire.request(URL(string: urlPath)!,
@@ -24,13 +24,11 @@ struct MovieServices {
             .validate()
             .responseJSON { response in
                 if(!response.result.isSuccess) {
-                    completionHandler(false, [])
+                    completionHandler(false, nil)
                 }
                 else{
-                    let JSONResponse = response.value as! [String:Any]
-                    
-                    let movies = Mapper<Movie>().mapArray(JSONArray: JSONResponse["results"] as! [[String : Any]])
-                    completionHandler(true,movies)
+                    let totalResults = Mapper<TotalResults>().map(JSON: response.value as! [String : Any])
+                    completionHandler(true,totalResults)
                 }
         }
     }

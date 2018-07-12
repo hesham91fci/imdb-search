@@ -30,7 +30,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="124.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lSb-Vk-Mkn">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Alternate Poster Image" translatesAutoresizingMaskIntoConstraints="NO" id="lSb-Vk-Mkn">
                                                     <rect key="frame" x="8" y="8" width="110" height="110"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="110" id="5nK-vc-8Ty"/>
@@ -145,4 +145,7 @@
             <point key="canvasLocation" x="789.60000000000002" y="400.74962518740631"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Alternate Poster Image" width="100" height="100"/>
+    </resources>
 </document>

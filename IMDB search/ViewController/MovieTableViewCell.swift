@@ -27,8 +27,10 @@ class MovieTableViewCell: UITableViewCell {
     
     func loadMovie(movie:Movie){
         self.nameLabel.text = movie.name
-        let url = URL(string: NSLocalizedString("POSTERS_ENDPOINT", comment: "comment") + movie.poster)
-        self.moviePosterImage.kf.setImage(with: url)
+        if movie.poster != nil {
+            let url = URL(string: NSLocalizedString("POSTERS_ENDPOINT", comment: "comment") + movie.poster)
+            self.moviePosterImage.kf.setImage(with: url)
+        }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MMM/yyyy"
         self.releaseDateLabel.text = dateFormatter.string(from: movie.releaseDate)
