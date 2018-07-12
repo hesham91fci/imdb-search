@@ -36,8 +36,14 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
+        if(searchBar.text?.count == 0){
+            let alert = UIAlertController(title: "Error", message: "please enter a movie to search for", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
         self.movieSearchBar.resignFirstResponder()
-        self.keyword = searchBar.text
+        self.keyword = searchBar.text!
         self.presenter.searchMovies(query: self.keyword, page: "1")
         
     }
@@ -77,14 +83,14 @@ extension SearchMoviesViewController: MovieView{
     
     func setErrorMovies() {
         self.movieSearchBar.isHidden = true
-        let alert = UIAlertController(title: "Error", message: "Something went wrong on searching for \(self.keyword)", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Error", message: "Something went wrong on searching for \(self.keyword!)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
     func setEmptyMovies() {
         self.movieSearchBar.isHidden = true
-        let alert = UIAlertController(title: "Error", message: "No results found on searching for \(self.keyword)", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "No Movies", message: "No results found on searching for \(self.keyword!)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
