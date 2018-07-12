@@ -54,8 +54,7 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
     
     func getResults(){
         
-        if(self.totalPages == nil || self.currentPage<self.totalPages){
-            print("searching ...")
+        if(self.keyword != nil || self.totalPages == nil || self.currentPage<self.totalPages){
             self.currentPage = self.currentPage + 1
             self.presenter.searchMovies(query: self.keyword, page: "\(self.currentPage)")
         }
@@ -129,11 +128,10 @@ extension SearchMoviesViewController: MovieView{
     func setMovies(movies: [Movie]) {
         self.movieSearchBar.isHidden = false
         self.movies.append(contentsOf: movies)
-        print("total movies : \(self.movies.count)")
-        if self.currentPage == 1{
-            self.movieTableView.setContentOffset(.zero, animated: true)
-        }
         self.movieTableView.reloadData()
+        if self.currentPage == 1{
+            self.movieTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
+        }
     }
     
     func setErrorMovies() {
