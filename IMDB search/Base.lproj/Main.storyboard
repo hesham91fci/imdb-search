@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,22 +20,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x5M-yO-an1">
-                                <rect key="frame" x="0.0" y="67" width="375" height="56"/>
-                                <subviews>
-                                    <searchBar contentMode="redraw" placeholder="Search for a movie" translatesAutoresizingMaskIntoConstraints="NO" id="7xM-om-8Pc">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </searchBar>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="7xM-om-8Pc" firstAttribute="top" secondItem="x5M-yO-an1" secondAttribute="top" id="59y-Z9-NR6"/>
-                                    <constraint firstAttribute="trailing" secondItem="7xM-om-8Pc" secondAttribute="trailing" id="9Qs-YZ-4PG"/>
-                                    <constraint firstAttribute="bottom" secondItem="7xM-om-8Pc" secondAttribute="bottom" id="Mz5-eR-iAm"/>
-                                    <constraint firstItem="7xM-om-8Pc" firstAttribute="leading" secondItem="x5M-yO-an1" secondAttribute="leading" id="fiD-qg-GJ6"/>
-                                </constraints>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="125" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ayp-rO-5Uk">
                                 <rect key="frame" x="0.0" y="123" width="375" height="544"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -102,6 +87,59 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x5M-yO-an1">
+                                <rect key="frame" x="0.0" y="67" width="375" height="56"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" placeholder="Search for a movie" translatesAutoresizingMaskIntoConstraints="NO" id="7xM-om-8Pc">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Qd7-dn-qr0">
+                                        <rect key="frame" x="8" y="56" width="359" height="0.0"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" id="qxK-3F-PdQ"/>
+                                        </constraints>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecentSearchesTableViewCell" id="nuc-Io-lZo" customClass="RecentSearchesTableViewCell" customModule="IMDB_search" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="28" width="359" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nuc-Io-lZo" id="Wyp-Sq-PTe">
+                                                    <rect key="frame" x="0.0" y="0.0" width="359" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recent search" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYo-sm-Uay">
+                                                            <rect key="frame" x="15" y="11" width="329" height="22"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="NYo-sm-Uay" secondAttribute="bottom" id="Lkr-MS-XuJ"/>
+                                                        <constraint firstItem="NYo-sm-Uay" firstAttribute="top" secondItem="Wyp-Sq-PTe" secondAttribute="topMargin" id="ONT-GB-OVI"/>
+                                                        <constraint firstItem="NYo-sm-Uay" firstAttribute="trailing" secondItem="Wyp-Sq-PTe" secondAttribute="trailingMargin" id="afC-ON-1bX"/>
+                                                        <constraint firstItem="NYo-sm-Uay" firstAttribute="leading" secondItem="Wyp-Sq-PTe" secondAttribute="leadingMargin" id="hF4-Ov-74v"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="recentSearchLabel" destination="NYo-sm-Uay" id="e8Y-6n-gC1"/>
+                                                </connections>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Qd7-dn-qr0" firstAttribute="leading" secondItem="x5M-yO-an1" secondAttribute="leading" constant="8" id="02V-CY-YoQ"/>
+                                    <constraint firstItem="7xM-om-8Pc" firstAttribute="top" secondItem="x5M-yO-an1" secondAttribute="top" id="59y-Z9-NR6"/>
+                                    <constraint firstAttribute="trailing" secondItem="7xM-om-8Pc" secondAttribute="trailing" id="9Qs-YZ-4PG"/>
+                                    <constraint firstAttribute="trailing" secondItem="Qd7-dn-qr0" secondAttribute="trailing" constant="8" id="ZQr-OZ-K3a"/>
+                                    <constraint firstItem="Qd7-dn-qr0" firstAttribute="top" secondItem="7xM-om-8Pc" secondAttribute="bottom" id="dRr-6V-YPv"/>
+                                    <constraint firstAttribute="bottom" secondItem="Qd7-dn-qr0" secondAttribute="bottom" id="dre-du-a0A"/>
+                                    <constraint firstItem="7xM-om-8Pc" firstAttribute="leading" secondItem="x5M-yO-an1" secondAttribute="leading" id="fiD-qg-GJ6"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
@@ -120,6 +158,8 @@
                     <connections>
                         <outlet property="movieSearchBar" destination="7xM-om-8Pc" id="N4Y-LI-Amp"/>
                         <outlet property="movieTableView" destination="ayp-rO-5Uk" id="Bv5-gk-g5d"/>
+                        <outlet property="recentSearchHeightConstraint" destination="qxK-3F-PdQ" id="2i2-xO-W45"/>
+                        <outlet property="recentSearchesTableView" destination="Qd7-dn-qr0" id="MRW-KD-J4b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ch9-fi-Vc5" sceneMemberID="firstResponder"/>

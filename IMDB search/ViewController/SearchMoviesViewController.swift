@@ -9,31 +9,69 @@
 import UIKit
 
 class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+    @IBOutlet weak var recentSearchesTableView: UITableView!
     @IBOutlet weak var movieSearchBar: UISearchBar!
     @IBOutlet weak var movieTableView: UITableView!
+    @IBOutlet weak var recentSearchHeightConstraint: NSLayoutConstraint!
     var movies=[Movie]()
     var keyword:String!
     let presenter = MoviePresenter()
     var currentPage=0
     var totalPages:Int!
+    var recentSearches=[String]()
+    let maximumRecentSearches = 10
     override func viewDidLoad() {
         super.viewDidLoad()
         self.movieTableView.delegate = self
         self.movieTableView.dataSource = self
         self.movieSearchBar.delegate = self
+        
+        self.recentSearchesTableView.delegate = self
+        self.recentSearchesTableView.dataSource = self
         self.presenter.attachView(view: self)
         // Do any additional setup after loading the view.
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
+        if(tableView == self.movieTableView){
+            return movies.count
+        }
+        else{
+            return recentSearches.count
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell", for: indexPath) as! MovieTableViewCell
-        let movie = movies[indexPath.row]
-        cell.loadMovie(movie: movie)
-        return cell
+
+        if(tableView == self.movieTableView && self.movies.count != 0){
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell", for: indexPath) as! MovieTableViewCell
+            cell.loadMovie(movie: movies[indexPath.row])
+            return cell
+        }
+        else if(self.recentSearchHeightConstraint.constant != CGFloat(0)){
+            let cell = tableView.dequeueReusableCell(withIdentifier: "RecentSearchesTableViewCell", for: indexPath) as! RecentSearchesTableViewCell
+            cell.loadSearch(recentSearch: self.recentSearches[indexPath.row])
+            return cell
+        }
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if(tableView == self.recentSearchesTableView){
+            self.updateRecentSearchesTableHeight(height: 0)
+            self.keyword = self.recentSearches[indexPath.row]
+            self.initSearchMovies()
+            self.getResults()
+        }
+    }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        if(self.recentSearches.count != 0){
+            self.updateRecentSearchesTableHeight(height: 300)
+            self.recentSearchesTableView.reloadData()
+        }
+        return true
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -44,41 +82,44 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
             self.present(alert, animated: true, completion: nil)
             return
         }
+        self.keyword = searchBar.text!
+        self.updateRecentSearchesTableHeight(height: 0)
+        self.initSearchMovies()
+        getResults()
+    }
+    
+    func initSearchMovies(){
         self.currentPage = 0
         self.movies = [Movie]()
         self.movieSearchBar.resignFirstResponder()
-        self.keyword = searchBar.text!
-        getResults()
-        
     }
     
-    func getResults(){
-        
-        if(self.keyword != nil || self.currentPage<self.totalPages){
-            self.currentPage = self.currentPage + 1
-            self.presenter.searchMovies(query: self.keyword, page: "\(self.currentPage)")
+    func addKeywordToRecentSearches(){
+        if(!self.recentSearches.contains(self.keyword)){
+            if(self.recentSearches.count==maximumRecentSearches){
+                self.recentSearches.removeFirst()
+            }
+            self.recentSearches.append(self.keyword)
         }
     }
     
+    func getResults(){
+        let isKeyWordToSearch = self.keyword != nil
+        let isSearchResultsRetrieved = self.totalPages != nil
+        let isMoreResultsExists = isSearchResultsRetrieved && self.currentPage<self.totalPages
+        if(isKeyWordToSearch && (!isSearchResultsRetrieved || isMoreResultsExists) ) {
+            self.currentPage = self.currentPage + 1
+            self.presenter.searchMovies(query: self.keyword, page: "\(self.currentPage)")
+        }
+        
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        view.endEditing(true)
-        self.loadMoreMovies(scrollView: scrollView)
+        if(self.movieTableView == scrollView){
+            view.endEditing(true)
+            self.loadMoreMovies(scrollView: scrollView)
+        }
     }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        self.loadMoreMovies(scrollView: scrollView)
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        self.loadMoreMovies(scrollView: scrollView)
-    }
-    /*func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        self.loadMoreMovies(scrollView: scrollView)
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        self.loadMoreMovies(scrollView: scrollView)
-    }*/
     
     func loadMoreMovies(scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
@@ -88,6 +129,11 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
             
             self.getResults()
         }
+    }
+    
+    func updateRecentSearchesTableHeight(height:Int){
+        self.recentSearchHeightConstraint.constant = CGFloat(height)
+        self.recentSearchesTableView.layoutIfNeeded()
     }
 
     override func didReceiveMemoryWarning() {
@@ -127,6 +173,7 @@ extension SearchMoviesViewController: MovieView{
     
     func setMovies(movies: [Movie]) {
         self.movieTableView.isHidden = false
+        self.addKeywordToRecentSearches()
         self.movies.append(contentsOf: movies)
         self.movieTableView.reloadData()
         if self.currentPage == 1{
