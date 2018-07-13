@@ -11,7 +11,7 @@ import ObjectMapper
 class Movie: Mappable{
     var poster:String!
     var name:String!
-    var releaseDate:Date!
+    var releaseDate:String!
     var overview:String!
     required init?(map: Map) {
         
@@ -20,7 +20,7 @@ class Movie: Mappable{
     func mapping(map: Map) {
         name    <- map["title"]
         poster         <- map["poster_path"]
-        releaseDate      <- (map["release_date"], DateTransform())
+        releaseDate      <- map["release_date"]
         overview       <- map["overview"]
     }
 }

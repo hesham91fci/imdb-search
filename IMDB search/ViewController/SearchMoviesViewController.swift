@@ -54,7 +54,7 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
     
     func getResults(){
         
-        if(self.keyword != nil || self.totalPages == nil || self.currentPage<self.totalPages){
+        if(self.keyword != nil || self.currentPage<self.totalPages){
             self.currentPage = self.currentPage + 1
             self.presenter.searchMovies(query: self.keyword, page: "\(self.currentPage)")
         }
@@ -126,7 +126,7 @@ extension SearchMoviesViewController: MovieView{
     }
     
     func setMovies(movies: [Movie]) {
-        self.movieSearchBar.isHidden = false
+        self.movieTableView.isHidden = false
         self.movies.append(contentsOf: movies)
         self.movieTableView.reloadData()
         if self.currentPage == 1{
@@ -135,14 +135,14 @@ extension SearchMoviesViewController: MovieView{
     }
     
     func setErrorMovies() {
-        self.movieSearchBar.isHidden = true
+        self.movieTableView.isHidden = true
         let alert = UIAlertController(title: "Error", message: "Something went wrong on searching for \(self.keyword!)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
     func setEmptyMovies() {
-        self.movieSearchBar.isHidden = true
+        self.movieTableView.isHidden = true
         let alert = UIAlertController(title: "No Movies", message: "No results found on searching for \(self.keyword!)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)

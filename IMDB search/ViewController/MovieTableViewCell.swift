@@ -32,8 +32,11 @@ class MovieTableViewCell: UITableViewCell {
             self.moviePosterImage.kf.setImage(with: url)
         }
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MMM/yyyy"
-        self.releaseDateLabel.text = dateFormatter.string(from: movie.releaseDate)
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let movieDate = dateFormatter.date(from: movie.releaseDate)
+        
+        dateFormatter.dateFormat = "dd-MMM-yyyy"
+        self.releaseDateLabel.text = dateFormatter.string(from: movieDate!)
         self.moviewOverviewLabel.text = movie.overview
     }
 

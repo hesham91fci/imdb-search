@@ -19,6 +19,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x5M-yO-an1">
+                                <rect key="frame" x="0.0" y="67" width="375" height="56"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" placeholder="Search for a movie" translatesAutoresizingMaskIntoConstraints="NO" id="7xM-om-8Pc">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="7xM-om-8Pc" firstAttribute="top" secondItem="x5M-yO-an1" secondAttribute="top" id="59y-Z9-NR6"/>
+                                    <constraint firstAttribute="trailing" secondItem="7xM-om-8Pc" secondAttribute="trailing" id="9Qs-YZ-4PG"/>
+                                    <constraint firstAttribute="bottom" secondItem="7xM-om-8Pc" secondAttribute="bottom" id="Mz5-eR-iAm"/>
+                                    <constraint firstItem="7xM-om-8Pc" firstAttribute="leading" secondItem="x5M-yO-an1" secondAttribute="leading" id="fiD-qg-GJ6"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="125" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ayp-rO-5Uk">
                                 <rect key="frame" x="0.0" y="123" width="375" height="544"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -86,22 +102,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x5M-yO-an1">
-                                <rect key="frame" x="0.0" y="67" width="375" height="56"/>
-                                <subviews>
-                                    <searchBar contentMode="redraw" placeholder="Search for a movie" translatesAutoresizingMaskIntoConstraints="NO" id="7xM-om-8Pc">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </searchBar>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="7xM-om-8Pc" firstAttribute="top" secondItem="x5M-yO-an1" secondAttribute="top" id="59y-Z9-NR6"/>
-                                    <constraint firstAttribute="trailing" secondItem="7xM-om-8Pc" secondAttribute="trailing" id="9Qs-YZ-4PG"/>
-                                    <constraint firstAttribute="bottom" secondItem="7xM-om-8Pc" secondAttribute="bottom" id="Mz5-eR-iAm"/>
-                                    <constraint firstItem="7xM-om-8Pc" firstAttribute="leading" secondItem="x5M-yO-an1" secondAttribute="leading" id="fiD-qg-GJ6"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
