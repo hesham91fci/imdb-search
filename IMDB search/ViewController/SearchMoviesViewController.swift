@@ -28,8 +28,9 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
         
         self.recentSearchesTableView.delegate = self
         self.recentSearchesTableView.dataSource = self
+        self.movieTableView.estimatedRowHeight = 550
+        self.movieTableView.rowHeight = UITableViewAutomaticDimension
         self.presenter.attachView(view: self)
-        // Do any additional setup after loading the view.
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -40,6 +41,10 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
             return recentSearches.count
         }
         
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
