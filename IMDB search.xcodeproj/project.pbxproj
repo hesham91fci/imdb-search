@@ -16,6 +16,19 @@
 		0447C56920F685BE003357A4 /* MoviePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447C56820F685BE003357A4 /* MoviePresenter.swift */; };
 		0447C56D20F7A617003357A4 /* TotalResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447C56C20F7A617003357A4 /* TotalResults.swift */; };
 		0447C56F20F8F667003357A4 /* RecentSearchesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447C56E20F8F667003357A4 /* RecentSearchesTableViewCell.swift */; };
+		0447C57120FAB352003357A4 /* TestableMovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447C57020FAB352003357A4 /* TestableMovieView.swift */; };
+		0447C57320FAB379003357A4 /* MoviePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447C56820F685BE003357A4 /* MoviePresenter.swift */; };
+		0447C57420FAB382003357A4 /* MovieServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447C56220F678AA003357A4 /* MovieServices.swift */; };
+		0447C57520FAB387003357A4 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447C56620F67CA0003357A4 /* Movie.swift */; };
+		0447C57620FAB38C003357A4 /* TotalResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447C56C20F7A617003357A4 /* TotalResults.swift */; };
+		0447C57720FAB7FE003357A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BD9B9E20F55E48005B084B /* AppDelegate.swift */; };
+		0447C57820FAB9E4003357A4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0447C56420F67A2C003357A4 /* Localizable.strings */; };
+		0447C57A20FABAB4003357A4 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0447C57920FABAB4003357A4 /* Alamofire.framework */; };
+		0447C57C20FABAB4003357A4 /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0447C57B20FABAB4003357A4 /* Kingfisher.framework */; };
+		0447C57E20FABAB4003357A4 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0447C57D20FABAB4003357A4 /* ObjectMapper.framework */; };
+		0447C58020FABAD7003357A4 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0447C57F20FABAD7003357A4 /* Alamofire.framework */; };
+		0447C58220FABAD7003357A4 /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0447C58120FABAD7003357A4 /* Kingfisher.framework */; };
+		0447C58420FABAD7003357A4 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0447C58320FABAD7003357A4 /* ObjectMapper.framework */; };
 		04BD9B9F20F55E48005B084B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BD9B9E20F55E48005B084B /* AppDelegate.swift */; };
 		04BD9BA420F55E48005B084B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04BD9BA220F55E48005B084B /* Main.storyboard */; };
 		04BD9BA620F55E4A005B084B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04BD9BA520F55E4A005B084B /* Assets.xcassets */; };
@@ -55,6 +68,13 @@
 		0447C56820F685BE003357A4 /* MoviePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePresenter.swift; sourceTree = "<group>"; };
 		0447C56C20F7A617003357A4 /* TotalResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalResults.swift; sourceTree = "<group>"; };
 		0447C56E20F8F667003357A4 /* RecentSearchesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchesTableViewCell.swift; sourceTree = "<group>"; };
+		0447C57020FAB352003357A4 /* TestableMovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestableMovieView.swift; sourceTree = "<group>"; };
+		0447C57920FABAB4003357A4 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0447C57B20FABAB4003357A4 /* Kingfisher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0447C57D20FABAB4003357A4 /* ObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0447C57F20FABAD7003357A4 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0447C58120FABAD7003357A4 /* Kingfisher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0447C58320FABAD7003357A4 /* ObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04BD9B9B20F55E48005B084B /* IMDB search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IMDB search.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04BD9B9E20F55E48005B084B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04BD9BA320F55E48005B084B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -82,6 +102,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0447C57A20FABAB4003357A4 /* Alamofire.framework in Frameworks */,
+				0447C57C20FABAB4003357A4 /* Kingfisher.framework in Frameworks */,
+				0447C57E20FABAB4003357A4 /* ObjectMapper.framework in Frameworks */,
 				1A955D0E3748D9723C5B3AEB /* Pods_IMDB_search.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -90,6 +113,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0447C58020FABAD7003357A4 /* Alamofire.framework in Frameworks */,
+				0447C58220FABAD7003357A4 /* Kingfisher.framework in Frameworks */,
+				0447C58420FABAD7003357A4 /* ObjectMapper.framework in Frameworks */,
 				473874780AFB9B548CAA627B /* Pods_IMDB_searchTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -201,6 +227,7 @@
 			children = (
 				04BD9BB320F55E4A005B084B /* IMDB_searchTests.swift */,
 				04BD9BB520F55E4A005B084B /* Info.plist */,
+				0447C57020FAB352003357A4 /* TestableMovieView.swift */,
 			);
 			path = "IMDB searchTests";
 			sourceTree = "<group>";
@@ -217,6 +244,12 @@
 		9D1E51D531684342B27BA9DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0447C57F20FABAD7003357A4 /* Alamofire.framework */,
+				0447C58120FABAD7003357A4 /* Kingfisher.framework */,
+				0447C58320FABAD7003357A4 /* ObjectMapper.framework */,
+				0447C57920FABAB4003357A4 /* Alamofire.framework */,
+				0447C57B20FABAB4003357A4 /* Kingfisher.framework */,
+				0447C57D20FABAB4003357A4 /* ObjectMapper.framework */,
 				E62EF1DAFB973323E44E88DB /* Pods_IMDB_search.framework */,
 				C97840B855B0053637E5385E /* Pods_IMDB_searchTests.framework */,
 				4A8587E8774B5583F3804F08 /* Pods_IMDB_searchUITests.framework */,
@@ -267,6 +300,7 @@
 				04BD9BAB20F55E4A005B084B /* Sources */,
 				04BD9BAC20F55E4A005B084B /* Frameworks */,
 				04BD9BAD20F55E4A005B084B /* Resources */,
+				DDA9EDFEDB673E6943019E37 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -356,6 +390,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0447C57820FAB9E4003357A4 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,14 +414,12 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -427,6 +460,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DDA9EDFEDB673E6943019E37 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-IMDB searchTests/Pods-IMDB searchTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IMDB searchTests/Pods-IMDB searchTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E8041748D06FACC78E4405E2 /* [CP] Check Pods Manifest.lock */ = {
@@ -471,6 +526,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				04BD9BB420F55E4A005B084B /* IMDB_searchTests.swift in Sources */,
+				0447C57620FAB38C003357A4 /* TotalResults.swift in Sources */,
+				0447C57320FAB379003357A4 /* MoviePresenter.swift in Sources */,
+				0447C57420FAB382003357A4 /* MovieServices.swift in Sources */,
+				0447C57720FAB7FE003357A4 /* AppDelegate.swift in Sources */,
+				0447C57120FAB352003357A4 /* TestableMovieView.swift in Sources */,
+				0447C57520FAB387003357A4 /* Movie.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

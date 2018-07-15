@@ -11,6 +11,7 @@ import ObjectMapper
 class TotalResults: Mappable {
     var pageIndex:Int!
     var totalPages:Int!
+    var totalResults:Int!
     var movies:[Movie]!
     required init?(map: Map) {
         
@@ -20,5 +21,6 @@ class TotalResults: Mappable {
         pageIndex    <- map["page"]
         totalPages         <- map["total_pages"]
         movies      <- map["results"]
+        totalResults <- map["total_results"]
     }
 }

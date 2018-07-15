@@ -13,7 +13,9 @@ target 'IMDB search' do
 
   target 'IMDB searchTests' do
     inherit! :search_paths
-    # Pods for testing
+	pod 'Alamofire'
+	pod 'ObjectMapper'
+	pod 'Kingfisher'
   end
 
   target 'IMDB searchUITests' do

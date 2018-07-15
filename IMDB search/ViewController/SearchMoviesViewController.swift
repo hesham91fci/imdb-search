@@ -188,6 +188,7 @@ extension SearchMoviesViewController: MovieView{
     
     func setErrorMovies() {
         self.movieTableView.isHidden = true
+        self.movies = [Movie]()
         let alert = UIAlertController(title: "Error", message: "Something went wrong on searching for \(self.keyword!)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -195,10 +196,9 @@ extension SearchMoviesViewController: MovieView{
     
     func setEmptyMovies() {
         self.movieTableView.isHidden = true
+        self.movies = [Movie]()
         let alert = UIAlertController(title: "No Movies", message: "No results found on searching for \(self.keyword!)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
-    
-    
 }

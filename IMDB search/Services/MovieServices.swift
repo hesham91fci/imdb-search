@@ -20,7 +20,7 @@ struct MovieServices {
         
         Alamofire.request(URL(string: urlPath)!,
                           method: .get,
-                          parameters: ["api_key": apiKey, "query": query, "page":page])
+                          parameters: ["api_key": NSLocalizedString("API_KEY", comment: "comment"), "query": query, "page":page])
             .validate()
             .responseJSON { response in
                 if(!response.result.isSuccess) {

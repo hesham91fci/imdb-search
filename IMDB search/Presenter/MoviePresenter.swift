@@ -22,7 +22,7 @@ protocol MovieView: NSObjectProtocol {
 }
 class MoviePresenter {
     weak private var movieView : MovieView?
-    
+    var totalResults:TotalResults!
     func attachView(view:MovieView)  {
         self.movieView=view
     }
@@ -31,14 +31,15 @@ class MoviePresenter {
     }
     
     func searchMovies(query:String,page:String){
-       // movieView?.startLoading()
+        movieView?.startLoading()
         MovieServices.sharedMovieServices.searchMovies(query: query, page: page) { (success, totalResults) in
-         //   self.movieView?.finishLoading()
+            self.movieView?.finishLoading()
             if(success){
                 if(totalResults?.movies.count == 0){
                     self.movieView?.setEmptyMovies()
                 }
                 else{
+                    self.totalResults = totalResults!
                     self.movieView?.setMovies(movies: (totalResults?.movies)!)
                     self.movieView?.setTotalPages(totalPages: (totalResults?.totalPages)!)
                     self.movieView?.setCurrentPage(pageIndex: (totalResults?.pageIndex)!)
