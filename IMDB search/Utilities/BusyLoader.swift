@@ -16,7 +16,7 @@ class BusyLoader {
             self.overlayView = UIView.init(frame: UIScreen.main.bounds)
             
             self.overlayView!.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
-            self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+            self.activityIndicator = UIActivityIndicatorView(style: .gray)
             self.activityIndicator!.center.x = self.overlayView!.center.x
             self.activityIndicator!.center.y = self.overlayView!.center.y - 15
             self.overlayView!.addSubview(self.activityIndicator!)

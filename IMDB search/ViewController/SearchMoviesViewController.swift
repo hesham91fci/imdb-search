@@ -13,15 +13,16 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
     @IBOutlet weak var movieSearchBar: UISearchBar!
     @IBOutlet weak var movieTableView: UITableView!
     @IBOutlet weak var recentSearchHeightConstraint: NSLayoutConstraint!
-    var movies=[Movie]()
     var keyword:String!
-    let presenter = MoviePresenter()
+    let movieViewModel = MovieViewModel()
     var currentPage=0
     var totalPages:Int!
+    var totalMovies=0
     var recentSearches=[String]()
     let maximumRecentSearches = 10
     override func viewDidLoad() {
         super.viewDidLoad()
+        initCallbacks()
         self.movieTableView.delegate = self
         self.movieTableView.dataSource = self
         self.movieSearchBar.delegate = self
@@ -29,13 +30,12 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
         self.recentSearchesTableView.delegate = self
         self.recentSearchesTableView.dataSource = self
         self.movieTableView.estimatedRowHeight = 550
-        self.movieTableView.rowHeight = UITableViewAutomaticDimension
-        self.presenter.attachView(view: self)
+        self.movieTableView.rowHeight = UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(tableView == self.movieTableView){
-            return movies.count
+            return self.totalMovies
         }
         else{
             return recentSearches.count
@@ -44,14 +44,14 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if(tableView == self.movieTableView && self.movies.count != 0){
+        if(tableView == self.movieTableView){
             let cell = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell", for: indexPath) as! MovieTableViewCell
-            cell.loadMovie(movie: movies[indexPath.row])
+            cell.loadMovie(movie: movieViewModel.getMovie(atIndex: indexPath.row))
             return cell
         }
         else if(self.recentSearchHeightConstraint.constant != CGFloat(0)){
@@ -82,8 +82,8 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
         if(searchBar.text?.count == 0){
-            let alert = UIAlertController(title: "Error", message: "please enter a movie to search for", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            let alert = UIAlertController(title: "Error", message: "please enter a movie to search for", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return
         }
@@ -95,7 +95,6 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
     
     func initSearchMovies(){
         self.currentPage = 0
-        self.movies = [Movie]()
         self.movieSearchBar.resignFirstResponder()
     }
     
@@ -114,7 +113,7 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
         let isMoreResultsExists = isSearchResultsRetrieved && self.currentPage<self.totalPages
         if(isKeyWordToSearch && (!isSearchResultsRetrieved || isMoreResultsExists) ) {
             self.currentPage = self.currentPage + 1
-            self.presenter.searchMovies(query: self.keyword, page: "\(self.currentPage)")
+            self.movieViewModel.searchMovies(query: self.keyword, page: "\(self.currentPage)")
         }
         
     }
@@ -159,46 +158,45 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
 
 }
 
-extension SearchMoviesViewController: MovieView{
-    func setCurrentPage(pageIndex: Int) {
-        self.currentPage = pageIndex
+extension SearchMoviesViewController{
+    func initCallbacks(){
+        self.movieViewModel.startSearchingMovies = startSearchingMovies
+        self.movieViewModel.didFinishSearchingMovies = self.didLoadMovies
+        self.movieViewModel.didFinishSearchingMoviesWithError = self.setErrorMovies
+        
     }
     
-    func setTotalPages(totalPages: Int) {
-        self.totalPages = totalPages
-    }
-    
-    func startLoading() {
+    func startSearchingMovies() {
         BusyLoader.showBusyIndicator(mainView: self.view)
     }
     
-    func finishLoading() {
+    func didLoadMovies(totalMovies:Int, totalPages:Int) {
         BusyLoader.hideBusyIndicator()
-    }
-    
-    func setMovies(movies: [Movie]) {
+        self.totalMovies = totalMovies
+        self.totalPages = totalPages
+        if totalMovies == 0{
+            self.setEmptyMovies()
+            return
+        }
         self.movieTableView.isHidden = false
         self.addKeywordToRecentSearches()
-        self.movies.append(contentsOf: movies)
         self.movieTableView.reloadData()
         if self.currentPage == 1{
-            self.movieTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: true)
+            self.movieTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
         }
     }
     
     func setErrorMovies() {
         self.movieTableView.isHidden = true
-        self.movies = [Movie]()
-        let alert = UIAlertController(title: "Error", message: "Something went wrong on searching for \(self.keyword!)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        let alert = UIAlertController(title: "Error", message: "Something went wrong on searching for \(self.keyword!)", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
     func setEmptyMovies() {
         self.movieTableView.isHidden = true
-        self.movies = [Movie]()
-        let alert = UIAlertController(title: "No Movies", message: "No results found on searching for \(self.keyword!)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        let alert = UIAlertController(title: "No Movies", message: "No results found on searching for \(self.keyword!)", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 }
