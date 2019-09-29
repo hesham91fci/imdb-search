@@ -7,7 +7,6 @@
 //
 
 import UIKit
-
 class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     @IBOutlet weak var recentSearchesTableView: UITableView!
     @IBOutlet weak var movieSearchBar: UISearchBar!
@@ -160,7 +159,7 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
 
 extension SearchMoviesViewController{
     func initCallbacks(){
-        self.movieViewModel.startSearchingMovies = startSearchingMovies
+        self.movieViewModel.startSearchingMovies = self.startSearchingMovies
         self.movieViewModel.didFinishSearchingMovies = self.didLoadMovies
         self.movieViewModel.didFinishSearchingMoviesWithError = self.setErrorMovies
         

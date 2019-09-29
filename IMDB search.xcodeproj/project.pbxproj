@@ -409,21 +409,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-IMDB search/Pods-IMDB search-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
-				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IMDB search/Pods-IMDB search-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IMDB search/Pods-IMDB search-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IMDB search/Pods-IMDB search-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IMDB search/Pods-IMDB search-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4DC7CC25BFC01EFA7ABF68E0 /* [CP] Check Pods Manifest.lock */ = {
@@ -467,21 +462,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-IMDB searchTests/Pods-IMDB searchTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
-				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IMDB searchTests/Pods-IMDB searchTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IMDB searchTests/Pods-IMDB searchTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IMDB searchTests/Pods-IMDB searchTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IMDB searchTests/Pods-IMDB searchTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E8041748D06FACC78E4405E2 /* [CP] Check Pods Manifest.lock */ = {
@@ -746,7 +736,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.careem.imdb.search.IMDB-searchTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IMDB search.app/IMDB search";
 			};
@@ -768,7 +758,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.careem.imdb.search.IMDB-searchTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IMDB search.app/IMDB search";
 			};
@@ -789,7 +779,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.careem.imdb.search.IMDB-searchUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = "IMDB search";
 			};
@@ -810,7 +800,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.careem.imdb.search.IMDB-searchUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = "IMDB search";
 			};
