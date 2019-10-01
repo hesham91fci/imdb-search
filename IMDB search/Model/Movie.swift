@@ -13,6 +13,9 @@ class Movie: Mappable{
     var name:String!
     var releaseDate:String!
     var overview:String!
+    init(){
+        
+    }
     required init?(map: Map) {
         
     }

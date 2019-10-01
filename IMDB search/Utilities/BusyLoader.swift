@@ -29,4 +29,8 @@ class BusyLoader {
     static func hideBusyIndicator(){
         self.overlayView!.isHidden=true
     }
+    
+    static func isLoading()->Bool{
+        return self.overlayView?.isHidden == false
+    }
 }

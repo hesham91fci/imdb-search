@@ -7,27 +7,26 @@
 //
 
 import UIKit
-class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+import RxCocoa
+import RxSwift
+class SearchMoviesViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var recentSearchesTableView: UITableView!
     @IBOutlet weak var movieSearchBar: UISearchBar!
     @IBOutlet weak var movieTableView: UITableView!
     @IBOutlet weak var recentSearchHeightConstraint: NSLayoutConstraint!
+    let disposeBag = DisposeBag()
     var keyword:String!
     let movieViewModel = MovieViewModel()
     var currentPage=0
-    var totalPages:Int!
+    var totalPages:Int = 0
     var totalMovies=0
     var recentSearches=[String]()
     let maximumRecentSearches = 10
     override func viewDidLoad() {
         super.viewDidLoad()
-        initCallbacks()
-        self.movieTableView.delegate = self
-        self.movieTableView.dataSource = self
+        initSubscribers()
         self.movieSearchBar.delegate = self
-        
-        self.recentSearchesTableView.delegate = self
-        self.recentSearchesTableView.dataSource = self
+
         self.movieTableView.estimatedRowHeight = 550
         self.movieTableView.rowHeight = UITableView.automaticDimension
     }
@@ -42,18 +41,9 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
         
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if(tableView == self.movieTableView){
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell", for: indexPath) as! MovieTableViewCell
-            cell.loadMovie(movie: movieViewModel.getMovie(atIndex: indexPath.row))
-            return cell
-        }
-        else if(self.recentSearchHeightConstraint.constant != CGFloat(0)){
+        if(self.recentSearchHeightConstraint.constant != CGFloat(0)){
             let cell = tableView.dequeueReusableCell(withIdentifier: "RecentSearchesTableViewCell", for: indexPath) as! RecentSearchesTableViewCell
             cell.loadSearch(recentSearch: self.recentSearches[indexPath.row])
             return cell
@@ -98,37 +88,31 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
     }
     
     func addKeywordToRecentSearches(){
-        if(!self.recentSearches.contains(self.keyword)){
+        if(!self.recentSearches.contains(self.keyword.lowercased())){
             if(self.recentSearches.count==maximumRecentSearches){
                 self.recentSearches.removeFirst()
             }
-            self.recentSearches.append(self.keyword)
+            self.recentSearches.append(self.keyword.lowercased())
         }
     }
     
     func getResults(){
-        let isKeyWordToSearch = self.keyword != nil
-        let isSearchResultsRetrieved = self.totalPages != nil
-        let isMoreResultsExists = isSearchResultsRetrieved && self.currentPage<self.totalPages
-        if(isKeyWordToSearch && (!isSearchResultsRetrieved || isMoreResultsExists) ) {
+        let isMoreResultsExists = self.currentPage<self.totalPages || self.currentPage == 0
+        if(isMoreResultsExists && !BusyLoader.isLoading() ) {
             self.currentPage = self.currentPage + 1
+            print("will search in page \(self.currentPage)")
             self.movieViewModel.searchMovies(query: self.keyword, page: "\(self.currentPage)")
         }
         
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if(self.movieTableView == scrollView){
-            view.endEditing(true)
-            self.loadMoreMovies(scrollView: scrollView)
-        }
-    }
+
     
-    func loadMoreMovies(scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
+    func loadMoreMovies() {
+        let offsetY = self.movieTableView.contentOffset.y
+        let contentHeight = self.movieTableView.contentSize.height
         
-        if offsetY > contentHeight - scrollView.frame.size.height {
+        if offsetY > contentHeight - self.movieTableView.frame.size.height {
             
             self.getResults()
         }
@@ -158,42 +142,56 @@ class SearchMoviesViewController: UIViewController,UITableViewDataSource, UITabl
 }
 
 extension SearchMoviesViewController{
-    func initCallbacks(){
-        self.movieViewModel.startSearchingMovies = self.startSearchingMovies
-        self.movieViewModel.didFinishSearchingMovies = self.didLoadMovies
-        self.movieViewModel.didFinishSearchingMoviesWithError = self.setErrorMovies
+    
+    func initSubscribers(){
+        initLoadingObservable()
+        initMoviesObservables()
+        initErrorSubscription()
+    }
+    
+    func initLoadingObservable(){
+        self.movieViewModel.isLoading.asObservable().subscribe(
+            onNext: { [unowned self] isLoading in
+                if isLoading{
+                    BusyLoader.showBusyIndicator(mainView: self.view)
+                }
+                else{
+                    BusyLoader.hideBusyIndicator()
+                }
+                
+        })
+    }
+
+    
+    func initMoviesObservables() {
+        self.movieViewModel.observableMovies
+            .bind(to: self.movieTableView
+                .rx
+                .items(cellIdentifier: "MovieTableViewCell",
+                       cellType: MovieTableViewCell.self)) { row, movie, cell in
+                        cell.loadMovie(movie: movie)
+            }
+            .disposed(by: disposeBag)
+        self.movieViewModel.observableResults.subscribe(onNext: { [unowned self] totalResults in
+            self.totalPages = totalResults.totalPages
+            
+            self.movieTableView.rx.contentOffset.subscribe(
+                onNext: { [unowned self] _ in
+                    self.loadMoreMovies()
+            }).disposed(by: self.disposeBag)
+        })
+    }
+    
+    func initErrorSubscription() {
+        self.movieViewModel.error.subscribe(onNext: { [unowned self] String in
+            let alert = UIAlertController(title: "Error", message: "Something went wrong on searching for \(self.keyword!)", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        })
         
     }
     
-    func startSearchingMovies() {
-        BusyLoader.showBusyIndicator(mainView: self.view)
-    }
-    
-    func didLoadMovies(totalMovies:Int, totalPages:Int) {
-        BusyLoader.hideBusyIndicator()
-        self.totalMovies = totalMovies
-        self.totalPages = totalPages
-        if totalMovies == 0{
-            self.setEmptyMovies()
-            return
-        }
-        self.movieTableView.isHidden = false
-        self.addKeywordToRecentSearches()
-        self.movieTableView.reloadData()
-        if self.currentPage == 1{
-            self.movieTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableView.ScrollPosition.top, animated: true)
-        }
-    }
-    
-    func setErrorMovies() {
-        self.movieTableView.isHidden = true
-        let alert = UIAlertController(title: "Error", message: "Something went wrong on searching for \(self.keyword!)", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     func setEmptyMovies() {
-        self.movieTableView.isHidden = true
         let alert = UIAlertController(title: "No Movies", message: "No results found on searching for \(self.keyword!)", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)

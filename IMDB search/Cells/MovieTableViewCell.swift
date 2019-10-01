@@ -31,7 +31,7 @@ class MovieTableViewCell: UITableViewCell {
             let url = URL(string: NSLocalizedString("POSTERS_ENDPOINT", comment: "comment") + movie.poster)
             self.moviePosterImage.kf.setImage(with: url)
         }
-        if(movie.releaseDate.count != 0){
+        if(movie.releaseDate != nil && movie.releaseDate.count != 0){
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let movieDate = dateFormatter.date(from: movie.releaseDate)

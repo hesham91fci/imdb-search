@@ -13,6 +13,9 @@ class TotalResults: Mappable {
     var totalPages:Int!
     var totalResults:Int!
     var movies:[Movie]!
+    init() {
+        
+    }
     required init?(map: Map) {
         
     }
