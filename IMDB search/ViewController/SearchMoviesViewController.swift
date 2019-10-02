@@ -9,7 +9,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
-class SearchMoviesViewController: UIViewController, UISearchBarDelegate {
+class SearchMoviesViewController: UIViewController {
     @IBOutlet weak var recentSearchesTableView: UITableView!
     @IBOutlet weak var movieSearchBar: UISearchBar!
     @IBOutlet weak var movieTableView: UITableView!
@@ -17,83 +17,63 @@ class SearchMoviesViewController: UIViewController, UISearchBarDelegate {
     let disposeBag = DisposeBag()
     var keyword:String!
     let movieViewModel = MovieViewModel()
+    let recentSearchesViewModel = RecentSearchesViewModel()
     var currentPage=0
     var totalPages:Int = 0
     var totalMovies=0
-    var recentSearches=[String]()
-    let maximumRecentSearches = 10
     override func viewDidLoad() {
         super.viewDidLoad()
         initSubscribers()
-        self.movieSearchBar.delegate = self
+        initUISubscribers()
+
 
         self.movieTableView.estimatedRowHeight = 550
         self.movieTableView.rowHeight = UITableView.automaticDimension
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(tableView == self.movieTableView){
-            return self.totalMovies
-        }
-        else{
-            return recentSearches.count
-        }
-        
+    func initUISubscribers(){
+        initSearchBarClickSubscription()
+        initRecentSearchesClickSubscription()
+        initSearchBarBeginEditSubscription()
+        initRecentSearchesSubscription()
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        if(self.recentSearchHeightConstraint.constant != CGFloat(0)){
-            let cell = tableView.dequeueReusableCell(withIdentifier: "RecentSearchesTableViewCell", for: indexPath) as! RecentSearchesTableViewCell
-            cell.loadSearch(recentSearch: self.recentSearches[indexPath.row])
-            return cell
-        }
-        return UITableViewCell()
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if(tableView == self.recentSearchesTableView){
+    func initSearchBarClickSubscription(){
+        self.movieSearchBar.rx.searchButtonClicked.subscribe(onNext: {[unowned self] _ in
+            self.view.endEditing(true)
+            if(self.movieSearchBar.text?.count == 0){
+                let alert = UIAlertController(title: "Error", message: "please enter a movie to search for", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            self.keyword = self.movieSearchBar.text!
             self.updateRecentSearchesTableHeight(height: 0)
-            self.keyword = self.recentSearches[indexPath.row]
             self.initSearchMovies()
             self.getResults()
-        }
+        }).disposed(by: disposeBag)
     }
     
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        if(self.recentSearches.count != 0){
-            self.updateRecentSearchesTableHeight(height: 300)
-            self.recentSearchesTableView.reloadData()
-        }
-        return true
+    func initRecentSearchesClickSubscription(){
+        self.recentSearchesTableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                self?.updateRecentSearchesTableHeight(height: 0)
+                self?.keyword = self?.recentSearchesViewModel.getKeyword(atIndex: indexPath.row)
+                self?.initSearchMovies()
+                self?.getResults()
+            }).disposed(by: disposeBag)
     }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        view.endEditing(true)
-        if(searchBar.text?.count == 0){
-            let alert = UIAlertController(title: "Error", message: "please enter a movie to search for", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
-        self.keyword = searchBar.text!
-        self.updateRecentSearchesTableHeight(height: 0)
-        self.initSearchMovies()
-        getResults()
+    func initSearchBarBeginEditSubscription(){
+        self.movieSearchBar.rx.textDidBeginEditing.subscribe(onNext: { [unowned self] _ in
+            if self.recentSearchesViewModel.isNotEmptyRecentSearches(){
+                self.updateRecentSearchesTableHeight(height: 300)
+            }
+        }).disposed(by: disposeBag)
     }
     
     func initSearchMovies(){
         self.currentPage = 0
         self.movieSearchBar.resignFirstResponder()
-    }
-    
-    func addKeywordToRecentSearches(){
-        if(!self.recentSearches.contains(self.keyword.lowercased())){
-            if(self.recentSearches.count==maximumRecentSearches){
-                self.recentSearches.removeFirst()
-            }
-            self.recentSearches.append(self.keyword.lowercased())
-        }
     }
     
     func getResults(){
@@ -105,8 +85,6 @@ class SearchMoviesViewController: UIViewController, UISearchBarDelegate {
         }
         
     }
-    
-
     
     func loadMoreMovies() {
         let offsetY = self.movieTableView.contentOffset.y
@@ -158,12 +136,16 @@ extension SearchMoviesViewController{
                 else{
                     BusyLoader.hideBusyIndicator()
                 }
-                
         })
     }
 
     
     func initMoviesObservables() {
+        observeForMovies()
+        observeForTotalResults()
+    }
+    
+    func observeForMovies(){
         self.movieViewModel.observableMovies
             .bind(to: self.movieTableView
                 .rx
@@ -172,14 +154,33 @@ extension SearchMoviesViewController{
                         cell.loadMovie(movie: movie)
             }
             .disposed(by: disposeBag)
+    }
+    
+    func observeForTotalResults(){
         self.movieViewModel.observableResults.subscribe(onNext: { [unowned self] totalResults in
             self.totalPages = totalResults.totalPages
-            
+            if !self.recentSearchesViewModel.isKeywordAlreadyExists(keyword: self.keyword){
+                self.recentSearchesViewModel.addKeywordToRecentSearches(keyword: self.keyword)
+            }
+            if totalResults.movies.isEmpty{
+                self.setEmptyMovies()
+            }
             self.movieTableView.rx.contentOffset.subscribe(
                 onNext: { [unowned self] _ in
                     self.loadMoreMovies()
             }).disposed(by: self.disposeBag)
-        })
+        }).disposed(by: self.disposeBag)
+    }
+    
+    func initRecentSearchesSubscription(){
+        self.recentSearchesViewModel.recentSearchesObservable
+            .bind(to: self.recentSearchesTableView
+                .rx
+                .items(cellIdentifier: "RecentSearchesTableViewCell",
+                       cellType: RecentSearchesTableViewCell.self)) { row, recentSearch, cell in
+                        cell.loadSearch(recentSearch: recentSearch)
+            }
+            .disposed(by: disposeBag)
     }
     
     func initErrorSubscription() {

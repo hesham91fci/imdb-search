@@ -37,6 +37,7 @@
 		04BD9BBF20F55E4A005B084B /* IMDB_searchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BD9BBE20F55E4A005B084B /* IMDB_searchUITests.swift */; };
 		1A955D0E3748D9723C5B3AEB /* Pods_IMDB_search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E62EF1DAFB973323E44E88DB /* Pods_IMDB_search.framework */; };
 		473874780AFB9B548CAA627B /* Pods_IMDB_searchTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97840B855B0053637E5385E /* Pods_IMDB_searchTests.framework */; };
+		D8D47DAD23438BC100CE1192 /* RecentSearchesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D47DAC23438BC100CE1192 /* RecentSearchesViewModel.swift */; };
 		D8FCEE712340C51D00528509 /* MoviesError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FCEE702340C51D00528509 /* MoviesError.swift */; };
 		D8FCEE722340E81B00528509 /* MoviesError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FCEE702340C51D00528509 /* MoviesError.swift */; };
 		EE532E99440E185F4C64BE2B /* Pods_IMDB_searchUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A8587E8774B5583F3804F08 /* Pods_IMDB_searchUITests.framework */; };
@@ -94,6 +95,7 @@
 		BC11FE52CCD40B94B781C58A /* Pods-IMDB searchUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IMDB searchUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IMDB searchUITests/Pods-IMDB searchUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C97840B855B0053637E5385E /* Pods_IMDB_searchTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IMDB_searchTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D200FC5E4330426B5DDD4E5B /* Pods-IMDB search.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IMDB search.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IMDB search/Pods-IMDB search.debug.xcconfig"; sourceTree = "<group>"; };
+		D8D47DAC23438BC100CE1192 /* RecentSearchesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchesViewModel.swift; sourceTree = "<group>"; };
 		D8FCEE702340C51D00528509 /* MoviesError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesError.swift; sourceTree = "<group>"; };
 		DF68666F807F3EE679F88D36 /* Pods-IMDB searchUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IMDB searchUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-IMDB searchUITests/Pods-IMDB searchUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E58B2D90121C54414DCCF94B /* Pods-IMDB searchTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IMDB searchTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-IMDB searchTests/Pods-IMDB searchTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				0447C56820F685BE003357A4 /* MovieViewModel.swift */,
+				D8D47DAC23438BC100CE1192 /* RecentSearchesViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -509,6 +512,7 @@
 				0447C56D20F7A617003357A4 /* TotalResults.swift in Sources */,
 				0447C56720F67CA0003357A4 /* Movie.swift in Sources */,
 				D8FCEE712340C51D00528509 /* MoviesError.swift in Sources */,
+				D8D47DAD23438BC100CE1192 /* RecentSearchesViewModel.swift in Sources */,
 				0447C56320F678AA003357A4 /* MovieServices.swift in Sources */,
 				04BD9B9F20F55E48005B084B /* AppDelegate.swift in Sources */,
 				0447C55E20F67341003357A4 /* MovieTableViewCell.swift in Sources */,
