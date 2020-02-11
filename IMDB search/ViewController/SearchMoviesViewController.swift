@@ -15,20 +15,26 @@ class SearchMoviesViewController: UIViewController {
     @IBOutlet weak var movieTableView: UITableView!
     @IBOutlet weak var recentSearchHeightConstraint: NSLayoutConstraint!
     let disposeBag = DisposeBag()
-    var keyword:String!
+    var keyword:BehaviorRelay<String> = BehaviorRelay<String>(value: "")
     let movieViewModel = MovieViewModel()
     let recentSearchesViewModel = RecentSearchesViewModel()
-    var currentPage=0
+    var currentPage:BehaviorRelay<Int> = BehaviorRelay<Int>(value: 0)
     var totalPages:Int = 0
     var totalMovies=0
     override func viewDidLoad() {
         super.viewDidLoad()
         initSubscribers()
         initUISubscribers()
-
+        bindMovieViewModelBehaviors()
 
         self.movieTableView.estimatedRowHeight = 550
         self.movieTableView.rowHeight = UITableView.automaticDimension
+    }
+    
+    func bindMovieViewModelBehaviors(){
+        self.movieSearchBar.rx.text.orEmpty.bind(to: movieViewModel.keywordRelay).disposed(by: disposeBag)
+        self.movieSearchBar.rx.text.orEmpty.bind(to: keyword).disposed(by: disposeBag)
+        self.currentPage.bind(to: movieViewModel.pageRelay).disposed(by: disposeBag)
     }
     
     func initUISubscribers(){
@@ -47,7 +53,7 @@ class SearchMoviesViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
                 return
             }
-            self.keyword = self.movieSearchBar.text!
+            //self.keyword.accept(<#T##event: String##String#>) = !
             self.updateRecentSearchesTableHeight(height: 0)
             self.initSearchMovies()
             self.getResults()
@@ -58,7 +64,7 @@ class SearchMoviesViewController: UIViewController {
         self.recentSearchesTableView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 self?.updateRecentSearchesTableHeight(height: 0)
-                self?.keyword = self?.recentSearchesViewModel.getKeyword(atIndex: indexPath.row)
+                self?.keyword.accept(self?.recentSearchesViewModel.getKeyword(atIndex: indexPath.row) ?? "")
                 self?.initSearchMovies()
                 self?.getResults()
             }).disposed(by: disposeBag)
@@ -72,16 +78,16 @@ class SearchMoviesViewController: UIViewController {
     }
     
     func initSearchMovies(){
-        self.currentPage = 0
+        self.currentPage.accept(0)
         self.movieSearchBar.resignFirstResponder()
     }
     
     func getResults(){
-        let isMoreResultsExists = self.currentPage<self.totalPages || self.currentPage == 0
+        let isMoreResultsExists = self.currentPage.value<self.totalPages || self.currentPage.value == 0
         if(isMoreResultsExists && !BusyLoader.isLoading() ) {
-            self.currentPage = self.currentPage + 1
-            print("will search in page \(self.currentPage)")
-            self.movieViewModel.searchMovies(query: self.keyword, page: "\(self.currentPage)")
+            self.currentPage.accept(self.currentPage.value + 1)
+            print("will search in page \(self.currentPage.value)")
+            self.movieViewModel.searchMovies()
         }
         
     }
@@ -136,7 +142,7 @@ extension SearchMoviesViewController{
                 else{
                     BusyLoader.hideBusyIndicator()
                 }
-        })
+            }).disposed(by: disposeBag)
     }
 
     
@@ -159,8 +165,8 @@ extension SearchMoviesViewController{
     func observeForTotalResults(){
         self.movieViewModel.observableResults.subscribe(onNext: { [unowned self] totalResults in
             self.totalPages = totalResults.totalPages
-            if !self.recentSearchesViewModel.isKeywordAlreadyExists(keyword: self.keyword){
-                self.recentSearchesViewModel.addKeywordToRecentSearches(keyword: self.keyword)
+            if !self.recentSearchesViewModel.isKeywordAlreadyExists(keyword: self.keyword.value){
+                self.recentSearchesViewModel.addKeywordToRecentSearches(keyword: self.keyword.value)
             }
             if totalResults.movies.isEmpty{
                 self.setEmptyMovies()
@@ -185,15 +191,15 @@ extension SearchMoviesViewController{
     
     func initErrorSubscription() {
         self.movieViewModel.error.subscribe(onNext: { [unowned self] String in
-            let alert = UIAlertController(title: "Error", message: "Something went wrong on searching for \(self.keyword!)", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "Error", message: "Something went wrong on searching for \(self.keyword.value)", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
-        })
+            }).disposed(by: disposeBag)
         
     }
     
     func setEmptyMovies() {
-        let alert = UIAlertController(title: "No Movies", message: "No results found on searching for \(self.keyword!)", preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "No Movies", message: "No results found on searching for \(self.keyword.value)", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }

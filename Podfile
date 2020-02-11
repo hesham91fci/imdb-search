@@ -18,6 +18,8 @@ target 'IMDB search' do
 	pod 'Alamofire'
 	pod 'ObjectMapper'
 	pod 'Kingfisher'
+	pod 'RxTest'
+	pod 'RxBlocking'
   end
 
   target 'IMDB searchUITests' do

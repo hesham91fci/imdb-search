@@ -8,13 +8,24 @@
 
 import XCTest
 @testable import IMDB_search
-
+import RxCocoa
+import RxSwift
+import RxTest
+import RxBlocking
 class IMDB_searchTests: XCTestCase {
-    
+    let disposeBag = DisposeBag()
+    let movieViewModel = MovieViewModel()
+    var keyword:BehaviorRelay<String> = BehaviorRelay(value:"")
+    var page:BehaviorRelay<Int> = BehaviorRelay(value:0)
+    var scheduler: TestScheduler!
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        scheduler = TestScheduler(initialClock: 0)
+        keyword.bind(to: movieViewModel.keywordRelay).disposed(by: disposeBag)
+        page.bind(to: movieViewModel.pageRelay).disposed(by: disposeBag)
     }
+    
+
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
@@ -22,55 +33,58 @@ class IMDB_searchTests: XCTestCase {
     }
     
     func testEmptySearch() {
-        let presenter = MoviePresenter()
-        let testableView = TestableMovieView()
-        testableView.keyword = " "
-        presenter.attachView(view: testableView)
-        presenter.searchMovies(query: testableView.keyword, page: "1")
         let searchingExpectation = expectation(description: "Searching waiting expectation")
+        keyword.accept(" ")
+        page.accept(1)
+        var movies = scheduler.createObserver([Movie].self)
+        movieViewModel.observableMovies.bind(to: movies).disposed(by: disposeBag)
+        movieViewModel.searchMovies()
+        scheduler.start()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            XCTAssert(testableView.movies.count == 0)
+            XCTAssertEqual(movies.events[0].value.element, [])
             searchingExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testNormalResult(){
-        let presenter = MoviePresenter()
-        let testableView = TestableMovieView()
-        testableView.keyword = "Batman"
-        presenter.attachView(view: testableView)
-        presenter.searchMovies(query: testableView.keyword, page: "1")
-        
         let searchingExpectation = expectation(description: "Searching waiting expectation")
+        keyword.accept(" ")
+        page.accept(1)
+        let movies = scheduler.createObserver([Movie].self)
+        movieViewModel.observableMovies.bind(to: movies).disposed(by: disposeBag)
+        keyword.accept("Batman")
+        movieViewModel.searchMovies()
+        scheduler.start()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            XCTAssert(testableView.movies.count != 0)
-            XCTAssert(testableView.movies.first?.name.count != 0)
+            XCTAssertNotEqual(movies.events[2].value.element?.count, 0)
             searchingExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
+//    
     func testManyPages(){
-        let presenter = MoviePresenter()
-        let testableView = TestableMovieView()
-        testableView.keyword = "man"
-        presenter.attachView(view: testableView)
-        presenter.searchMovies(query: testableView.keyword, page: "1")
-        
+        keyword.accept("Batman")
+        page.accept(1)
+        let movies = scheduler.createObserver([Movie].self)
+        let totalResults = scheduler.createObserver(TotalResults.self)
+        movieViewModel.observableMovies.bind(to: movies).disposed(by: disposeBag)
+        movieViewModel.observableResults.bind(to: totalResults).disposed(by: disposeBag)
+        movieViewModel.searchMovies()
+        scheduler.start()
         let initialExpectation = expectation(description: "Searching waiting expectation")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            XCTAssert(testableView.movies.count != 0)
-            XCTAssert(testableView.movies.first?.name.count != 0)
+            XCTAssert(movies.events.last!.value.element?.count != 0)
             DispatchQueue.global(qos: .background).async {
-                for currentPage in 2...presenter.totalResults.totalPages{
+                for currentPage in 2...totalResults.events.last!.value.element!.totalPages{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         print(currentPage)
-                        presenter.searchMovies(query: testableView.keyword, page: "\(currentPage)")
-                        if(currentPage == presenter.totalResults.totalPages){
+                        self.page.accept(currentPage)
+                        self.movieViewModel.searchMovies()
+                        if(currentPage == totalResults.events.last!.value.element!.totalPages){
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                                print("total movies: \(testableView.movies.count)")
-                                XCTAssert(testableView.movies.count == presenter.totalResults.totalResults)
+                                print("total movies: \(movies.events.last?.value.element?.count)")
+                                XCTAssert(movies.events.last?.value.element?.count == totalResults.events.last?.value.element?.totalResults)
                                 initialExpectation.fulfill()
                             }
                             
@@ -83,68 +97,68 @@ class IMDB_searchTests: XCTestCase {
         waitForExpectations(timeout: 15*60, handler: nil)
         
     }
-    
-    func testUpdateRecentSearches(){
-        let presenter = MoviePresenter()
-        let testableView = TestableMovieView()
-        testableView.keyword = "Batman"
-        presenter.attachView(view: testableView)
-        presenter.searchMovies(query: testableView.keyword, page: "1")
-        
-        let searchingExpectation = expectation(description: "Searching waiting expectation")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            XCTAssert(testableView.movies.count != 0)
-            XCTAssert(testableView.movies.first?.name.count != 0)
-            testableView.keyword = "Rocky"
-            presenter.searchMovies(query: testableView.keyword, page: "1")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                XCTAssert(testableView.movies.count != 0)
-                XCTAssert(testableView.movies.first?.name.count != 0)
-                XCTAssert(testableView.recentSearches.count==2)
-                searchingExpectation.fulfill()
-            }
-        }
-        
-        
-        waitForExpectations(timeout: 10, handler: nil)
-    }
-    
-    func testRedudauntSearches(){
-        let presenter = MoviePresenter()
-        let testableView = TestableMovieView()
-        testableView.keyword = "Batman"
-        presenter.attachView(view: testableView)
-        presenter.searchMovies(query: testableView.keyword, page: "1")
-        
-        let searchingExpectation = expectation(description: "Searching waiting expectation")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            XCTAssert(testableView.movies.count != 0)
-            XCTAssert(testableView.movies.first?.name.count != 0)
-            presenter.searchMovies(query: testableView.keyword, page: "1")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                XCTAssert(testableView.recentSearches.count==1)
-                searchingExpectation.fulfill()
-            }
-        }
-        
-        
-        waitForExpectations(timeout: 10, handler: nil)
-    }
-    
-    func testEmptyRecentSearches(){
-        let presenter = MoviePresenter()
-        let testableView = TestableMovieView()
-        testableView.keyword = " "
-        presenter.attachView(view: testableView)
-        presenter.searchMovies(query: testableView.keyword, page: "1")
-        
-        let searchingExpectation = expectation(description: "Searching waiting expectation")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            XCTAssert(testableView.recentSearches.count == 0)
-            searchingExpectation.fulfill()
-        }
-        waitForExpectations(timeout: 5, handler: nil)
-    }
+//    
+//    func testUpdateRecentSearches(){
+//        let presenter = MoviePresenter()
+//        let testableView = TestableMovieView()
+//        testableView.keyword = "Batman"
+//        presenter.attachView(view: testableView)
+//        presenter.searchMovies(query: testableView.keyword, page: "1")
+//        
+//        let searchingExpectation = expectation(description: "Searching waiting expectation")
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//            XCTAssert(testableView.movies.count != 0)
+//            XCTAssert(testableView.movies.first?.name.count != 0)
+//            testableView.keyword = "Rocky"
+//            presenter.searchMovies(query: testableView.keyword, page: "1")
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                XCTAssert(testableView.movies.count != 0)
+//                XCTAssert(testableView.movies.first?.name.count != 0)
+//                XCTAssert(testableView.recentSearches.count==2)
+//                searchingExpectation.fulfill()
+//            }
+//        }
+//        
+//        
+//        waitForExpectations(timeout: 10, handler: nil)
+//    }
+//    
+//    func testRedudauntSearches(){
+//        let presenter = MoviePresenter()
+//        let testableView = TestableMovieView()
+//        testableView.keyword = "Batman"
+//        presenter.attachView(view: testableView)
+//        presenter.searchMovies(query: testableView.keyword, page: "1")
+//        
+//        let searchingExpectation = expectation(description: "Searching waiting expectation")
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//            XCTAssert(testableView.movies.count != 0)
+//            XCTAssert(testableView.movies.first?.name.count != 0)
+//            presenter.searchMovies(query: testableView.keyword, page: "1")
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                XCTAssert(testableView.recentSearches.count==1)
+//                searchingExpectation.fulfill()
+//            }
+//        }
+//        
+//        
+//        waitForExpectations(timeout: 10, handler: nil)
+//    }
+//    
+//    func testEmptyRecentSearches(){
+//        let presenter = MoviePresenter()
+//        let testableView = TestableMovieView()
+//        testableView.keyword = " "
+//        presenter.attachView(view: testableView)
+//        presenter.searchMovies(query: testableView.keyword, page: "1")
+//        
+//        let searchingExpectation = expectation(description: "Searching waiting expectation")
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//            XCTAssert(testableView.recentSearches.count == 0)
+//            searchingExpectation.fulfill()
+//        }
+//        waitForExpectations(timeout: 5, handler: nil)
+//    }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.

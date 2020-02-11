@@ -16,6 +16,10 @@ class MovieViewModel {
     private var totalMovies:BehaviorRelay<[Movie]> = BehaviorRelay(value: [])
     private let errorSubject = PublishSubject<String>()
     private let isLoadingSubject = PublishSubject<Bool>()
+    private let disposeBag = DisposeBag()
+    
+    var pageRelay:BehaviorRelay<Int> = BehaviorRelay<Int>(value: 0)
+    var keywordRelay:BehaviorRelay<String> = BehaviorRelay<String>(value: "")
     
     var error: Observable<String> {
         return self.errorSubject.asObservable()
@@ -29,12 +33,12 @@ class MovieViewModel {
     var isLoading: Observable<Bool> {
         return self.isLoadingSubject.asObservable()
     }
-    func searchMovies(query:String,page:String){
+    func searchMovies(){
         isLoadingSubject.onNext(true)
-        if page=="1"{
+        if pageRelay.value==1{
             self.totalMovies.accept([])
         }
-        MovieServices.sharedMovieServices.searchMovies(query: query, page: page)
+        MovieServices.sharedMovieServices.searchMovies(query: keywordRelay.value, page: pageRelay.value.description)
             .subscribe(
                 onNext: { [weak self] totalResults in
                     self!.totalResults.onNext(totalResults)
@@ -45,6 +49,6 @@ class MovieViewModel {
                     self!.errorSubject.onNext("Error fetching movies")
                     self!.isLoadingSubject.onNext(false)
                 }
-        )
+        ).disposed(by: disposeBag)
     }
 }
