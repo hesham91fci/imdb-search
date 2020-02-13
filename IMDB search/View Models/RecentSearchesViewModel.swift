@@ -11,13 +11,13 @@ import RxSwift
 import RxRelay
 class RecentSearchesViewModel{
     private let recentSearchesSubject:BehaviorRelay<[String]> = BehaviorRelay(value: [])
-    let MAXIMUM_RECENT_SEARCHES = 10
+    let maximumRecentSearches = 10
     var recentSearchesObservable:Observable<[String]>{
         return self.recentSearchesSubject.asObservable()
     }
     func addKeywordToRecentSearches(keyword:String){
         var oldRecentSearches = self.recentSearchesSubject.value
-        if self.recentSearchesSubject.value.count==MAXIMUM_RECENT_SEARCHES{
+        if self.recentSearchesSubject.value.count==maximumRecentSearches{
             oldRecentSearches.removeFirst()
         }
         recentSearchesSubject.accept(oldRecentSearches + [keyword])

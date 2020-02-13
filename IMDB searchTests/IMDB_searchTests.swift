@@ -12,7 +12,7 @@ import RxCocoa
 import RxSwift
 import RxTest
 import RxBlocking
-class IMDB_searchTests: XCTestCase {
+class IMDBSearchTests: XCTestCase {
     let disposeBag = DisposeBag()
     let movieViewModel = MovieViewModel()
     var keyword:BehaviorRelay<String> = BehaviorRelay(value:"")

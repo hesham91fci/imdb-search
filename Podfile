@@ -11,6 +11,7 @@ target 'IMDB search' do
 	pod 'Kingfisher'
 	pod 'RxSwift'
   pod 'RxCocoa'
+	pod 'SwiftLint', '~> 0.39.0'
 
 
   target 'IMDB searchTests' do
@@ -20,5 +21,6 @@ target 'IMDB search' do
 	pod 'Kingfisher'
 	pod 'RxTest'
 	pod 'RxBlocking'
+	pod 'SwiftLint', '~> 0.39.0'
   end
 end

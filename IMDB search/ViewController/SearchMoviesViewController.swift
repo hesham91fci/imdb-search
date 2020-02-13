@@ -190,7 +190,7 @@ extension SearchMoviesViewController{
     }
     
     func initErrorSubscription() {
-        self.movieViewModel.error.subscribe(onNext: { [unowned self] String in
+        self.movieViewModel.error.subscribe(onNext: { [unowned self] _ in
             let alert = UIAlertController(title: "Error", message: "Something went wrong on searching for \(self.keyword.value)", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)

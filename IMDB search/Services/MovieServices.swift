@@ -26,16 +26,20 @@ struct MovieServices {
                 .validate()
                 .responseJSON { response in
                     guard let data = response.data else{
-                        observer.onError(response.error ?? MoviesError().localizedDescription as! Error)
+                        observer.onError(response.error ?? MoviesError())
                         return
                     }
                     if(!response.result.isSuccess) {
-                        observer.onError(response.error ?? MoviesError().localizedDescription as! Error)
+                        observer.onError(response.error ?? MoviesError())
                     }
                     else{
-                        if let totalResults = Mapper<TotalResults>().map(JSON: response.value as! [String : Any]){
-                            observer.onNext(totalResults)
+                        guard let jsonResponse = response.value as? [String:Any] else{
+                            return
                         }
+                        guard let totalResults = Mapper<TotalResults>().map(JSON: jsonResponse) else{
+                            return
+                        }
+                        observer.onNext(totalResults)
                     }
             }
             return Disposables.create()
