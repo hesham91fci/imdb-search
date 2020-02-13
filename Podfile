@@ -21,10 +21,4 @@ target 'IMDB search' do
 	pod 'RxTest'
 	pod 'RxBlocking'
   end
-
-  target 'IMDB searchUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end
