@@ -4,6 +4,8 @@ line_length:
 excluded: # paths to ignore during linting. Takes precedence over `included`.
     - Carthage
     - Pods
+opt_in_rules: # some rules are only opt-in
+    - closure_body_length
 function_body_length:
     - 20 #warning
     - 26 #error
@@ -14,5 +16,5 @@ file_length:
     - 500 #warning
     - 600 #error
 function_parameter_count:
-    - 3 #warning
-    - 4 #error
+    - 4 #warning
+    - 5 #error

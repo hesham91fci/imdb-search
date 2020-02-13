@@ -60,7 +60,8 @@ class IMDBSearchTests: XCTestCase {
         }
         waitForExpectations(timeout: 5, handler: nil)
     }
-//    
+//
+
     func testManyPages() {
         keyword.accept("Batman")
         page.accept(1)
@@ -74,26 +75,29 @@ class IMDBSearchTests: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             XCTAssert(movies.events.last!.value.element?.count != 0)
             DispatchQueue.global(qos: .background).async {
-                for currentPage in 2...totalResults.events.last!.value.element!.totalPages {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        print(currentPage)
-                        self.page.accept(currentPage)
-                        self.movieViewModel.searchMovies()
-                        if currentPage == totalResults.events.last!.value.element!.totalPages {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                print("total movies: \(movies.events.last?.value.element?.count)")
-                                XCTAssert(movies.events.last?.value.element?.count == totalResults.events.last?.value.element?.totalResults)
-                                initialExpectation.fulfill()
-                            }
-
-                        }
-                    }
-                    sleep(1)
-                }
+                self.scrollThroughManyPages(totalResults: totalResults, movies: movies, initialExpectation: initialExpectation)
             }
         }
         waitForExpectations(timeout: 15*60, handler: nil)
+    }
 
+    fileprivate func scrollThroughManyPages(totalResults: TestableObserver<TotalResults>, movies: TestableObserver<[Movie]>, initialExpectation: XCTestExpectation) {
+        for currentPage in 2...totalResults.events.last!.value.element!.totalPages {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                print(currentPage)
+                self.page.accept(currentPage)
+                self.movieViewModel.searchMovies()
+                if currentPage == totalResults.events.last!.value.element!.totalPages {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        print("total movies: \(movies.events.last?.value.element?.count)")
+                        XCTAssert(movies.events.last?.value.element?.count == totalResults.events.last?.value.element?.totalResults)
+                        initialExpectation.fulfill()
+                    }
+
+                }
+            }
+            sleep(1)
+        }
     }
 //    
 //    func testUpdateRecentSearches(){
