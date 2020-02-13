@@ -15,8 +15,8 @@ import RxBlocking
 class IMDBSearchTests: XCTestCase {
     let disposeBag = DisposeBag()
     let movieViewModel = MovieViewModel()
-    var keyword:BehaviorRelay<String> = BehaviorRelay(value:"")
-    var page:BehaviorRelay<Int> = BehaviorRelay(value:0)
+    var keyword: BehaviorRelay<String> = BehaviorRelay(value: "")
+    var page: BehaviorRelay<Int> = BehaviorRelay(value: 0)
     var scheduler: TestScheduler!
     override func setUp() {
         super.setUp()
@@ -24,19 +24,17 @@ class IMDBSearchTests: XCTestCase {
         keyword.bind(to: movieViewModel.keywordRelay).disposed(by: disposeBag)
         page.bind(to: movieViewModel.pageRelay).disposed(by: disposeBag)
     }
-    
 
-    
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testEmptySearch() {
         let searchingExpectation = expectation(description: "Searching waiting expectation")
         keyword.accept(" ")
         page.accept(1)
-        var movies = scheduler.createObserver([Movie].self)
+        let movies = scheduler.createObserver([Movie].self)
         movieViewModel.observableMovies.bind(to: movies).disposed(by: disposeBag)
         movieViewModel.searchMovies()
         scheduler.start()
@@ -46,8 +44,8 @@ class IMDBSearchTests: XCTestCase {
         }
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
-    func testNormalResult(){
+
+    func testNormalResult() {
         let searchingExpectation = expectation(description: "Searching waiting expectation")
         keyword.accept(" ")
         page.accept(1)
@@ -63,7 +61,7 @@ class IMDBSearchTests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
     }
 //    
-    func testManyPages(){
+    func testManyPages() {
         keyword.accept("Batman")
         page.accept(1)
         let movies = scheduler.createObserver([Movie].self)
@@ -76,18 +74,18 @@ class IMDBSearchTests: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             XCTAssert(movies.events.last!.value.element?.count != 0)
             DispatchQueue.global(qos: .background).async {
-                for currentPage in 2...totalResults.events.last!.value.element!.totalPages{
+                for currentPage in 2...totalResults.events.last!.value.element!.totalPages {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         print(currentPage)
                         self.page.accept(currentPage)
                         self.movieViewModel.searchMovies()
-                        if(currentPage == totalResults.events.last!.value.element!.totalPages){
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                        if currentPage == totalResults.events.last!.value.element!.totalPages {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 print("total movies: \(movies.events.last?.value.element?.count)")
                                 XCTAssert(movies.events.last?.value.element?.count == totalResults.events.last?.value.element?.totalResults)
                                 initialExpectation.fulfill()
                             }
-                            
+
                         }
                     }
                     sleep(1)
@@ -95,7 +93,7 @@ class IMDBSearchTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 15*60, handler: nil)
-        
+
     }
 //    
 //    func testUpdateRecentSearches(){
@@ -159,12 +157,12 @@ class IMDBSearchTests: XCTestCase {
 //        }
 //        waitForExpectations(timeout: 5, handler: nil)
 //    }
-    
+
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
         }
     }
-    
+
 }

@@ -11,31 +11,31 @@ import UIKit
 import RxSwift
 import RxCocoa
 class MovieViewModel {
-    
-    private var totalResults:PublishSubject<TotalResults> = PublishSubject()
-    private var totalMovies:BehaviorRelay<[Movie]> = BehaviorRelay(value: [])
+
+    private var totalResults: PublishSubject<TotalResults> = PublishSubject()
+    private var totalMovies: BehaviorRelay<[Movie]> = BehaviorRelay(value: [])
     private let errorSubject = PublishSubject<String>()
     private let isLoadingSubject = PublishSubject<Bool>()
     private let disposeBag = DisposeBag()
-    
-    var pageRelay:BehaviorRelay<Int> = BehaviorRelay<Int>(value: 0)
-    var keywordRelay:BehaviorRelay<String> = BehaviorRelay<String>(value: "")
-    
+
+    var pageRelay: BehaviorRelay<Int> = BehaviorRelay<Int>(value: 0)
+    var keywordRelay: BehaviorRelay<String> = BehaviorRelay<String>(value: "")
+
     var error: Observable<String> {
         return self.errorSubject.asObservable()
     }
-    var observableMovies: Observable<[Movie]>{
+    var observableMovies: Observable<[Movie]> {
         return self.totalMovies.asObservable()
     }
-    var observableResults: Observable<TotalResults>{
+    var observableResults: Observable<TotalResults> {
         return self.totalResults.asObservable()
     }
     var isLoading: Observable<Bool> {
         return self.isLoadingSubject.asObservable()
     }
-    func searchMovies(){
+    func searchMovies() {
         isLoadingSubject.onNext(true)
-        if pageRelay.value==1{
+        if pageRelay.value==1 {
             self.totalMovies.accept([])
         }
         MovieServices.sharedMovieServices.searchMovies(query: keywordRelay.value, page: pageRelay.value.description)
@@ -45,7 +45,7 @@ class MovieViewModel {
                     self!.totalMovies.accept(totalResults.movies + self!.totalMovies.value)
                     self!.isLoadingSubject.onNext(false)
             },
-                onError: { [weak self] error in
+                onError: { [weak self] _ in
                     self!.errorSubject.onNext("Error fetching movies")
                     self!.isLoadingSubject.onNext(false)
                 }

@@ -8,15 +8,15 @@
 
 import Foundation
 import ObjectMapper
-struct Movie: Mappable, Equatable{
-    var poster:String!
-    var name:String!
-    var releaseDate:String!
-    var overview:String!
+struct Movie: Mappable, Equatable {
+    var poster: String!
+    var name: String!
+    var releaseDate: String!
+    var overview: String!
     init?(map: Map) {
 
     }
-    
+
     mutating func mapping(map: Map) {
         name    <- map["title"]
         poster         <- map["poster_path"]

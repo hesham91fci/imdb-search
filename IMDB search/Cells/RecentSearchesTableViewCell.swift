@@ -10,7 +10,7 @@ import UIKit
 
 class RecentSearchesTableViewCell: UITableViewCell {
     @IBOutlet weak var recentSearchLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -21,7 +21,7 @@ class RecentSearchesTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    func loadSearch(recentSearch: String){
+    func loadSearch(recentSearch: String) {
         self.recentSearchLabel.text = recentSearch
     }
 }

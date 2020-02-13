@@ -24,18 +24,18 @@ class MovieTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    func loadMovie(movie:Movie){
+
+    func loadMovie(movie: Movie) {
         self.nameLabel.text = movie.name
         if movie.poster != nil {
             let url = URL(string: NSLocalizedString("POSTERS_ENDPOINT", comment: "comment") + movie.poster)
             self.moviePosterImage.kf.setImage(with: url)
         }
-        if(movie.releaseDate != nil && movie.releaseDate.count != 0){
+        if movie.releaseDate != nil && movie.releaseDate.count != 0 {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let movieDate = dateFormatter.date(from: movie.releaseDate)
-            
+
             dateFormatter.dateFormat = "dd-MMM-yyyy"
             self.releaseDateLabel.text = dateFormatter.string(from: movieDate!)
         }

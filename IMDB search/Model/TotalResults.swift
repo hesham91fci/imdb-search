@@ -9,17 +9,17 @@
 import Foundation
 import ObjectMapper
 class TotalResults: Mappable {
-    var pageIndex:Int!
-    var totalPages:Int!
-    var totalResults:Int!
-    var movies:[Movie]!
+    var pageIndex: Int!
+    var totalPages: Int!
+    var totalResults: Int!
+    var movies: [Movie]!
     init() {
-        
+
     }
     required init?(map: Map) {
-        
+
     }
-    
+
     func mapping(map: Map) {
         pageIndex    <- map["page"]
         totalPages         <- map["total_pages"]
