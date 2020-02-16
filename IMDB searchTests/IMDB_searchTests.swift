@@ -32,14 +32,14 @@ class IMDBSearchTests: XCTestCase {
 
     func testEmptySearch() {
         let searchingExpectation = expectation(description: "Searching waiting expectation")
-        keyword.accept(" ")
+        keyword.accept("Batman")
         page.accept(1)
         let movies = scheduler.createObserver([Movie].self)
         movieViewModel.observableMovies.bind(to: movies).disposed(by: disposeBag)
         movieViewModel.searchMovies()
         scheduler.start()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            XCTAssertEqual(movies.events[0].value.element, [])
+            XCTAssertEqual(movies.events.last!.value.element, [])
             searchingExpectation.fulfill()
         }
         waitForExpectations(timeout: 5, handler: nil)
