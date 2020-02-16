@@ -21,7 +21,7 @@ class MovieViewModel {
     var pageRelay: BehaviorRelay<Int> = BehaviorRelay<Int>(value: 0)
     var keywordRelay: BehaviorRelay<String> = BehaviorRelay<String>(value: "")
 
-    var error: Observable<String> {
+    var error: Observable<String>{
         return self.errorSubject.asObservable()
     }
     var observableMovies: Observable<[Movie]> {
