@@ -32,7 +32,7 @@ class IMDBSearchTests: XCTestCase {
 
     func testEmptySearch() {
         let searchingExpectation = expectation(description: "Searching waiting expectation")
-        keyword.accept("Batman")
+        keyword.accept(" ")
         page.accept(1)
         let movies = scheduler.createObserver([Movie].self)
         movieViewModel.observableMovies.bind(to: movies).disposed(by: disposeBag)
