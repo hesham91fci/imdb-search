@@ -28,6 +28,8 @@
 		0447C58020FABAD7003357A4 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0447C57F20FABAD7003357A4 /* Alamofire.framework */; };
 		0447C58220FABAD7003357A4 /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0447C58120FABAD7003357A4 /* Kingfisher.framework */; };
 		0447C58420FABAD7003357A4 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0447C58320FABAD7003357A4 /* ObjectMapper.framework */; };
+		046BA8AB24F2C00B00457284 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046BA8A924F2C00B00457284 /* ContentView.swift */; };
+		046BA8AC24F2C00B00457284 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046BA8AA24F2C00B00457284 /* SceneDelegate.swift */; };
 		04BD9B9F20F55E48005B084B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BD9B9E20F55E48005B084B /* AppDelegate.swift */; };
 		04BD9BA420F55E48005B084B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04BD9BA220F55E48005B084B /* Main.storyboard */; };
 		04BD9BA620F55E4A005B084B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04BD9BA520F55E4A005B084B /* Assets.xcassets */; };
@@ -67,6 +69,8 @@
 		0447C57F20FABAD7003357A4 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0447C58120FABAD7003357A4 /* Kingfisher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0447C58320FABAD7003357A4 /* ObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		046BA8A924F2C00B00457284 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		046BA8AA24F2C00B00457284 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		04BD9B9B20F55E48005B084B /* IMDB search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IMDB search.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04BD9B9E20F55E48005B084B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04BD9BA320F55E48005B084B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -196,6 +200,8 @@
 				0447C55720F67052003357A4 /* Cells */,
 				0447C55620F67047003357A4 /* Model */,
 				04BD9B9E20F55E48005B084B /* AppDelegate.swift */,
+				046BA8AA24F2C00B00457284 /* SceneDelegate.swift */,
+				046BA8A924F2C00B00457284 /* ContentView.swift */,
 				04BD9BA220F55E48005B084B /* Main.storyboard */,
 				04BD9BA520F55E4A005B084B /* Assets.xcassets */,
 				04BD9BA720F55E4A005B084B /* LaunchScreen.storyboard */,
@@ -443,11 +449,13 @@
 			files = (
 				0447C56920F685BE003357A4 /* MovieViewModel.swift in Sources */,
 				0447C55C20F672FB003357A4 /* SearchMoviesViewController.swift in Sources */,
+				046BA8AB24F2C00B00457284 /* ContentView.swift in Sources */,
 				0447C56120F677E9003357A4 /* BusyLoader.swift in Sources */,
 				0447C56D20F7A617003357A4 /* TotalResults.swift in Sources */,
 				0447C56720F67CA0003357A4 /* Movie.swift in Sources */,
 				D8FCEE712340C51D00528509 /* MoviesError.swift in Sources */,
 				D8D47DAD23438BC100CE1192 /* RecentSearchesViewModel.swift in Sources */,
+				046BA8AC24F2C00B00457284 /* SceneDelegate.swift in Sources */,
 				0447C56320F678AA003357A4 /* MovieServices.swift in Sources */,
 				04BD9B9F20F55E48005B084B /* AppDelegate.swift in Sources */,
 				0447C55E20F67341003357A4 /* MovieTableViewCell.swift in Sources */,
@@ -621,6 +629,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V98A42ZJ87;
 				INFOPLIST_FILE = "IMDB search/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -640,6 +649,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V98A42ZJ87;
 				INFOPLIST_FILE = "IMDB search/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
