@@ -12,7 +12,7 @@ import Combine
 class MovieViewModel: ObservableObject {
 
     private var subscriptions: [AnyCancellable] = []
-    private var totalResults: TotalResults!
+    private(set) var totalResults: TotalResults!
     @Published private(set) var totalMovies: [Movie] = []
     private var page: Int! = 1
     @Published var keyword = ""

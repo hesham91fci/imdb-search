@@ -12,9 +12,6 @@ target 'IMDB search' do
 
 
   target 'IMDB searchTests' do
-    inherit! :search_paths
-	pod 'Alamofire', '~> 5.2'
-	pod 'Kingfisher/SwiftUI', '~> 5.15.3'
-	pod 'SwiftLint', '~> 0.39.0'
+    
   end
 end
