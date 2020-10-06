@@ -1,29 +1,11 @@
-//
-//  TotalResults.swift
-//  IMDB search
-//
-//  Created by Hesham Ali on 7/12/18.
-//  Copyright © 2018 Hesham Ali. All rights reserved.
-//
+struct TotalResults: Codable {
+    let page, totalResults, totalPages: Int
+    let movies: [Movie]
 
-import Foundation
-import ObjectMapper
-class TotalResults: Mappable {
-    var pageIndex: Int!
-    var totalPages: Int!
-    var totalResults: Int!
-    var movies: [Movie]!
-    init() {
-
-    }
-    required init?(map: Map) {
-
-    }
-
-    func mapping(map: Map) {
-        pageIndex    <- map["page"]
-        totalPages         <- map["total_pages"]
-        movies      <- map["results"]
-        totalResults <- map["total_results"]
+    enum CodingKeys: String, CodingKey {
+        case page
+        case totalResults = "total_results"
+        case totalPages = "total_pages"
+        case movies = "results"
     }
 }

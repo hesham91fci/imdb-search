@@ -7,30 +7,24 @@
 //
 
 import Foundation
-import RxSwift
-import RxRelay
-class RecentSearchesViewModel {
-    private let recentSearchesSubject: BehaviorRelay<[String]> = BehaviorRelay(value: [])
+import Combine
+class RecentSearchesViewModel: ObservableObject {
+    @Published private(set) var recentSearchesSubject: [String] = []
+    @Published var keyword: String = ""
     let maximumRecentSearches = 10
-    var recentSearchesObservable: Observable<[String]> {
-        return self.recentSearchesSubject.asObservable()
-    }
-    func addKeywordToRecentSearches(keyword: String) {
-        var oldRecentSearches = self.recentSearchesSubject.value
-        if self.recentSearchesSubject.value.count==maximumRecentSearches {
-            oldRecentSearches.removeFirst()
+
+    func addKeywordToRecentSearches() {
+        if !isKeywordAlreadyExists() {
+            var oldRecentSearches = self.recentSearchesSubject
+            if self.recentSearchesSubject.count==maximumRecentSearches {
+                oldRecentSearches.removeFirst()
+            }
+            recentSearchesSubject = oldRecentSearches + [keyword]
         }
-        recentSearchesSubject.accept(oldRecentSearches + [keyword])
     }
-    func isKeywordAlreadyExists(keyword: String) -> Bool {
-        return recentSearchesSubject.value.contains(
+    private func isKeywordAlreadyExists() -> Bool {
+        return recentSearchesSubject.contains(
             where: { $0.lowercased() == keyword.lowercased()})
-    }
-    func getKeyword(atIndex index: Int) -> String {
-        return self.recentSearchesSubject.value[index]
-    }
-    func isNotEmptyRecentSearches() -> Bool {
-        return !self.recentSearchesSubject.value.isEmpty
     }
 
 }

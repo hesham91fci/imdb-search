@@ -8,47 +8,49 @@
 
 import Foundation
 import UIKit
-import RxSwift
-import RxCocoa
-class MovieViewModel {
+import Combine
+class MovieViewModel: ObservableObject {
 
-    private var totalResults: PublishSubject<TotalResults> = PublishSubject()
-    private var totalMovies: BehaviorRelay<[Movie]> = BehaviorRelay(value: [])
-    private let errorSubject = PublishSubject<String>()
-    private let isLoadingSubject = PublishSubject<Bool>()
-    private let disposeBag = DisposeBag()
-
-    var pageRelay: BehaviorRelay<Int> = BehaviorRelay<Int>(value: 0)
-    var keywordRelay: BehaviorRelay<String> = BehaviorRelay<String>(value: "")
-
-    var error: Observable<String>{
-        return self.errorSubject.asObservable()
-    }
-    var observableMovies: Observable<[Movie]> {
-        return self.totalMovies.asObservable()
-    }
-    var observableResults: Observable<TotalResults> {
-        return self.totalResults.asObservable()
-    }
-    var isLoading: Observable<Bool> {
-        return self.isLoadingSubject.asObservable()
-    }
+    private var subscriptions: [AnyCancellable] = []
+    private var totalResults: TotalResults!
+    @Published private(set) var totalMovies: [Movie] = []
+    private var page: Int! = 1
+    @Published var keyword = ""
+    let saveRecentSearch: PassthroughSubject<Void, Never> = PassthroughSubject()
     func searchMovies() {
-        isLoadingSubject.onNext(true)
-        if pageRelay.value==1 {
-            self.totalMovies.accept([])
+        if page==1 {
+            self.totalMovies = []
         }
-        MovieServices.sharedMovieServices.searchMovies(query: keywordRelay.value, page: pageRelay.value.description)
-            .subscribe(
-                onNext: { [weak self] totalResults in
-                    self!.totalResults.onNext(totalResults)
-                    self!.totalMovies.accept(totalResults.movies + self!.totalMovies.value)
-                    self!.isLoadingSubject.onNext(false)
-            },
-                onError: { [weak self] _ in
-                    self!.errorSubject.onNext("Error fetching movies")
-                    self!.isLoadingSubject.onNext(false)
-                }
-        ).disposed(by: disposeBag)
+        subscriptions.forEach { $0.cancel() }
+        subscriptions.append(MovieServices().searchMovies(query: keyword, page: page.description)
+        .sink(receiveCompletion: { (error) in
+            print("error \(error)")
+        }, receiveValue: { [weak self] (totalResults) in
+            self?.saveRecentSearch(movies: totalResults.movies)
+            self?.totalResults = totalResults
+            self?.totalMovies += totalResults.movies
+        }))
     }
+
+    func saveRecentSearch(movies: [Movie]) {
+        if !movies.isEmpty {
+            saveRecentSearch.send()
+        }
+    }
+
+    func shouldLoadMorePages(movie: Movie) -> Bool {
+        return totalMovies.firstIndex(where: {$0.id == movie.id}) ?? -1 == totalMovies.count-1
+    }
+
+    func loadMoreMovies() {
+        if page<totalResults.totalPages {
+            page+=1
+            searchMovies()
+        }
+    }
+
+    func resetSearch() {
+        page = 1
+    }
+
 }
