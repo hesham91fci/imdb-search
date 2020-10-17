@@ -22,6 +22,7 @@
 		04BD9BA620F55E4A005B084B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04BD9BA520F55E4A005B084B /* Assets.xcassets */; };
 		04BD9BA920F55E4A005B084B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04BD9BA720F55E4A005B084B /* LaunchScreen.storyboard */; };
 		239492E4757EBB3280AC8D04 /* Pods_IMDB_search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965A0068605A9ACBE7091DDA /* Pods_IMDB_search.framework */; };
+		3FAACB283D5389A6A94706B4 /* Pods_IMDB_search_IMDB_searchTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B401A1DBEE51333A6C4866 /* Pods_IMDB_search_IMDB_searchTests.framework */; };
 		D8D47DAD23438BC100CE1192 /* RecentSearchesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D47DAC23438BC100CE1192 /* RecentSearchesViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FAACB283D5389A6A94706B4 /* Pods_IMDB_search_IMDB_searchTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,9 +218,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 043EEA24252CE17800E3B9C9 /* Build configuration list for PBXNativeTarget "IMDB searchTests" */;
 			buildPhases = (
+				BA469058A330436E7F775804 /* [CP] Check Pods Manifest.lock */,
 				043EEA19252CE17800E3B9C9 /* Sources */,
 				043EEA1A252CE17800E3B9C9 /* Frameworks */,
 				043EEA1B252CE17800E3B9C9 /* Resources */,
+				B4F550D79459FA9914FBD339 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -327,6 +331,45 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B4F550D79459FA9914FBD339 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IMDB search-IMDB searchTests/Pods-IMDB search-IMDB searchTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IMDB search-IMDB searchTests/Pods-IMDB search-IMDB searchTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IMDB search-IMDB searchTests/Pods-IMDB search-IMDB searchTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BA469058A330436E7F775804 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-IMDB search-IMDB searchTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C2DCA61CFBD38103A151514F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -412,6 +455,7 @@
 /* Begin XCBuildConfiguration section */
 		043EEA25252CE17800E3B9C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C09BC85915751FAE30CA5122 /* Pods-IMDB search-IMDB searchTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -434,6 +478,7 @@
 		};
 		043EEA26252CE17800E3B9C9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA0F087760A56C2D1610C942 /* Pods-IMDB search-IMDB searchTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
