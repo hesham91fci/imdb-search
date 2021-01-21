@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04BD9BAE20F55E4A005B084B"
+               BlueprintIdentifier = "043EEA1C252CE17800E3B9C9"
                BuildableName = "IMDB searchTests.xctest"
                BlueprintName = "IMDB searchTests"
                ReferencedContainer = "container:IMDB search.xcodeproj">
@@ -42,7 +42,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04BD9BB920F55E4A005B084B"
+               BlueprintIdentifier = "044803AB25B8691F001F1B85"
                BuildableName = "IMDB searchUITests.xctest"
                BlueprintName = "IMDB searchUITests"
                ReferencedContainer = "container:IMDB search.xcodeproj">

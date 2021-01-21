@@ -1,0 +1,14 @@
+default_platform(:ios)
+
+platform :ios do
+# 1
+  desc "Create app on Apple Developer and App Store Connect sites"
+# 2
+  lane :create_app do
+# 3
+    run_tests(scheme: "IMDB search")
+  end
+  lane :screenshot do
+    snapshot
+  end
+end

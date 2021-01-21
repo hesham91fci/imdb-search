@@ -17,6 +17,8 @@
 		0447C56D20F7A617003357A4 /* TotalResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0447C56C20F7A617003357A4 /* TotalResults.swift */; };
 		0447C57A20FABAB4003357A4 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0447C57920FABAB4003357A4 /* Alamofire.framework */; };
 		0447C57C20FABAB4003357A4 /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0447C57B20FABAB4003357A4 /* Kingfisher.framework */; };
+		044803AF25B8691F001F1B85 /* IMDBUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044803AE25B8691F001F1B85 /* IMDBUITests.swift */; };
+		044803BA25B86950001F1B85 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044803B925B86950001F1B85 /* SnapshotHelper.swift */; };
 		046BA8AC24F2C00B00457284 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046BA8AA24F2C00B00457284 /* SceneDelegate.swift */; };
 		04BD9B9F20F55E48005B084B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BD9B9E20F55E48005B084B /* AppDelegate.swift */; };
 		04BD9BA620F55E4A005B084B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04BD9BA520F55E4A005B084B /* Assets.xcassets */; };
@@ -28,6 +30,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		043EEA22252CE17800E3B9C9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04BD9B9320F55E48005B084B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04BD9B9A20F55E48005B084B;
+			remoteInfo = "IMDB search";
+		};
+		044803B125B8691F001F1B85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04BD9B9320F55E48005B084B /* Project object */;
 			proxyType = 1;
@@ -54,6 +63,10 @@
 		0447C57F20FABAD7003357A4 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0447C58120FABAD7003357A4 /* Kingfisher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0447C58320FABAD7003357A4 /* ObjectMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ObjectMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		044803AC25B8691F001F1B85 /* IMDB searchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IMDB searchUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		044803AE25B8691F001F1B85 /* IMDBUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMDBUITests.swift; sourceTree = "<group>"; };
+		044803B025B8691F001F1B85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		044803B925B86950001F1B85 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		046BA8AA24F2C00B00457284 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		04BD9B9B20F55E48005B084B /* IMDB search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IMDB search.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04BD9B9E20F55E48005B084B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +94,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FAACB283D5389A6A94706B4 /* Pods_IMDB_search_IMDB_searchTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		044803A925B8691F001F1B85 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,12 +152,23 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		044803AD25B8691F001F1B85 /* IMDB searchUITests */ = {
+			isa = PBXGroup;
+			children = (
+				044803B925B86950001F1B85 /* SnapshotHelper.swift */,
+				044803AE25B8691F001F1B85 /* IMDBUITests.swift */,
+				044803B025B8691F001F1B85 /* Info.plist */,
+			);
+			path = "IMDB searchUITests";
+			sourceTree = "<group>";
+		};
 		04BD9B9220F55E48005B084B = {
 			isa = PBXGroup;
 			children = (
 				04BD9B9D20F55E48005B084B /* IMDB search */,
 				04BD9BB220F55E4A005B084B /* IMDB searchTests */,
 				043EEA1E252CE17800E3B9C9 /* IMDB searchTests */,
+				044803AD25B8691F001F1B85 /* IMDB searchUITests */,
 				04BD9B9C20F55E48005B084B /* Products */,
 				F7279A9B2DD90C9C3EE2DC6E /* Pods */,
 				9D1E51D531684342B27BA9DD /* Frameworks */,
@@ -149,6 +180,7 @@
 			children = (
 				04BD9B9B20F55E48005B084B /* IMDB search.app */,
 				043EEA1D252CE17800E3B9C9 /* IMDB searchTests.xctest */,
+				044803AC25B8691F001F1B85 /* IMDB searchUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -234,6 +266,24 @@
 			productReference = 043EEA1D252CE17800E3B9C9 /* IMDB searchTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		044803AB25B8691F001F1B85 /* IMDB searchUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 044803B525B8691F001F1B85 /* Build configuration list for PBXNativeTarget "IMDB searchUITests" */;
+			buildPhases = (
+				044803A825B8691F001F1B85 /* Sources */,
+				044803A925B8691F001F1B85 /* Frameworks */,
+				044803AA25B8691F001F1B85 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				044803B225B8691F001F1B85 /* PBXTargetDependency */,
+			);
+			name = "IMDB searchUITests";
+			productName = "IMDB searchUITests";
+			productReference = 044803AC25B8691F001F1B85 /* IMDB searchUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		04BD9B9A20F55E48005B084B /* IMDB search */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04BD9BC320F55E4A005B084B /* Build configuration list for PBXNativeTarget "IMDB search" */;
@@ -260,12 +310,16 @@
 		04BD9B9320F55E48005B084B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1160;
+				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Hesham Ali";
 				TargetAttributes = {
 					043EEA1C252CE17800E3B9C9 = {
 						CreatedOnToolsVersion = 11.6;
+						TestTargetID = 04BD9B9A20F55E48005B084B;
+					};
+					044803AB25B8691F001F1B85 = {
+						CreatedOnToolsVersion = 12.2;
 						TestTargetID = 04BD9B9A20F55E48005B084B;
 					};
 					04BD9B9A20F55E48005B084B = {
@@ -288,12 +342,20 @@
 			targets = (
 				04BD9B9A20F55E48005B084B /* IMDB search */,
 				043EEA1C252CE17800E3B9C9 /* IMDB searchTests */,
+				044803AB25B8691F001F1B85 /* IMDB searchUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		043EEA1B252CE17800E3B9C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		044803AA25B8691F001F1B85 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -415,6 +477,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		044803A825B8691F001F1B85 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				044803AF25B8691F001F1B85 /* IMDBUITests.swift in Sources */,
+				044803BA25B86950001F1B85 /* SnapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04BD9B9720F55E48005B084B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -439,6 +510,11 @@
 			target = 04BD9B9A20F55E48005B084B /* IMDB search */;
 			targetProxy = 043EEA22252CE17800E3B9C9 /* PBXContainerItemProxy */;
 		};
+		044803B225B8691F001F1B85 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04BD9B9A20F55E48005B084B /* IMDB search */;
+			targetProxy = 044803B125B8691F001F1B85 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -459,6 +535,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZLKD84L47Z;
 				INFOPLIST_FILE = "IMDB searchTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -482,6 +559,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZLKD84L47Z;
 				INFOPLIST_FILE = "IMDB searchTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -495,6 +573,49 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IMDB search.app/IMDB search";
+			};
+			name = Release;
+		};
+		044803B325B8691F001F1B85 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "IMDB searchUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.integrant.IMDB-searchUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "IMDB search";
+			};
+			name = Debug;
+		};
+		044803B425B8691F001F1B85 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "IMDB searchUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.integrant.IMDB-searchUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "IMDB search";
 			};
 			name = Release;
 		};
@@ -618,7 +739,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = V98A42ZJ87;
+				DEVELOPMENT_TEAM = ZLKD84L47Z;
 				INFOPLIST_FILE = "IMDB search/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -638,7 +759,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = V98A42ZJ87;
+				DEVELOPMENT_TEAM = ZLKD84L47Z;
 				INFOPLIST_FILE = "IMDB search/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -660,6 +781,15 @@
 			buildConfigurations = (
 				043EEA25252CE17800E3B9C9 /* Debug */,
 				043EEA26252CE17800E3B9C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		044803B525B8691F001F1B85 /* Build configuration list for PBXNativeTarget "IMDB searchUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				044803B325B8691F001F1B85 /* Debug */,
+				044803B425B8691F001F1B85 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
